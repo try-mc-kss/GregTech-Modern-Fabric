@@ -26,3 +26,4 @@ fabric/src/generated/resources/.cache/
 *.DS_Store
 
 #todolist.txt
+common/FaceQuad.java
