@@ -25,3 +25,4 @@ fabric/src/generated/resources/.cache/
 *.patch
 *.DS_Store
 
+#todolist.txt
