@@ -22,7 +22,6 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.lang.ref.WeakReference;
-import java.util.Set;
 
 /**
  * @author KilaBash
@@ -60,9 +59,13 @@ public class CableBlockEntity extends PipeBlockEntity<Insulation, CableData> {
             EnergyNet currentEnergyNet = this.currentEnergyNet.get();
             if (currentEnergyNet != null && currentEnergyNet.isValid() && currentEnergyNet.containsNode(getBlockPos()))
                 return currentEnergyNet; //return current net if it is still valid
-            currentEnergyNet = cableBlock.getWorldPipeNet(serverLevel).getNetFromPos(getBlockPos());
-            if (currentEnergyNet != null) {
-                this.currentEnergyNet = new WeakReference<>(currentEnergyNet);
+            // 添加空值检查以防止崩溃
+            var worldPipeNet = cableBlock.getWorldPipeNet(serverLevel);
+            if (worldPipeNet != null) {
+                currentEnergyNet = worldPipeNet.getNetFromPos(getBlockPos());
+                if (currentEnergyNet != null) {
+                    this.currentEnergyNet = new WeakReference<>(currentEnergyNet);
+                }
             }
         }
         return this.currentEnergyNet.get();

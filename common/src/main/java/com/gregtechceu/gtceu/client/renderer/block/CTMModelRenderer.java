@@ -30,6 +30,6 @@ public class CTMModelRenderer extends IModelRenderer {
 
     @Override
     public float reBakeCustomQuadsOffset() {
-        return LOW_PRECISION.get() ? 0.008f : 0.002f;
+        return 0.0f;
     }
 }

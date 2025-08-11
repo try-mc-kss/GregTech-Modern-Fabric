@@ -140,7 +140,6 @@ public class WorkableOverlayModel {
                                 quads.add(quad);
                             }
                         }
-
                         texture = predicate.getEmissiveSprite(isActive, isWorkingEnabled);
                         if (texture != null) {
                             if (ConfigHolder.INSTANCE.client.machinesEmissiveTextures) {
