@@ -21,7 +21,6 @@ import com.gregtechceu.gtceu.common.data.GTCompassSections;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.builders.ItemBuilder;
@@ -126,12 +125,7 @@ public class MachineBuilder<DEFINITION extends MachineDefinition> extends Builde
     private ResourceLocation compassPage = null;
     private final List<ResourceLocation> preNodes = new ArrayList<>();
 
-    protected MachineBuilder(Registrate registrate, String name,
-                             Function<ResourceLocation, DEFINITION> definitionFactory,
-                             Function<IMachineBlockEntity, MetaMachine> metaMachine,
-                             BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory,
-                             BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
-                             TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
+    protected MachineBuilder(Registrate registrate, String name, Function<ResourceLocation, DEFINITION> definitionFactory, Function<IMachineBlockEntity, MetaMachine> metaMachine, BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory, BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory, TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
         super(new ResourceLocation(registrate.getModid(), name));
         this.registrate = registrate;
         this.name = name;
@@ -154,12 +148,7 @@ public class MachineBuilder<DEFINITION extends MachineDefinition> extends Builde
         return this;
     }
 
-    public static <DEFINITION extends MachineDefinition> MachineBuilder<DEFINITION> create(Registrate registrate, String name,
-                                                                                           Function<ResourceLocation, DEFINITION> definitionFactory,
-                                                                                           Function<IMachineBlockEntity, MetaMachine> metaMachine,
-                                                                                           BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory,
-                                                                                           BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
-                                                                                           TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
+    public static <DEFINITION extends MachineDefinition> MachineBuilder<DEFINITION> create(Registrate registrate, String name, Function<ResourceLocation, DEFINITION> definitionFactory, Function<IMachineBlockEntity, MetaMachine> metaMachine, BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory, BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory, TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
         return new MachineBuilder<>(registrate, name, definitionFactory, metaMachine, blockFactory, itemFactory, blockEntityFactory);
     }
 

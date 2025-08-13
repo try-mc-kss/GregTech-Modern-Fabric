@@ -22,6 +22,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,13 +70,7 @@ public class WorkableOverlayModel {
         private final ResourceLocation activeSpriteEmissive;
         private final ResourceLocation pausedSpriteEmissive;
 
-        public ActivePredicate(@Nullable ResourceLocation normalSprite,
-                               @Nullable ResourceLocation activeSprite,
-                               @Nullable ResourceLocation pausedSprite,
-                               @Nullable ResourceLocation normalSpriteEmissive,
-                               @Nullable ResourceLocation activeSpriteEmissive,
-                               @Nullable ResourceLocation pausedSpriteEmissive) {
-
+        public ActivePredicate(@Nullable ResourceLocation normalSprite, @Nullable ResourceLocation activeSprite, @Nullable ResourceLocation pausedSprite, @Nullable ResourceLocation normalSpriteEmissive, @Nullable ResourceLocation activeSpriteEmissive, @Nullable ResourceLocation pausedSpriteEmissive) {
             this.normalSprite = normalSprite;
             this.activeSprite = activeSprite;
             this.pausedSprite = pausedSprite;
@@ -120,6 +115,7 @@ public class WorkableOverlayModel {
 
     @Environment(EnvType.CLIENT)
     public List<BakedQuad> bakeQuads(@Nullable Direction side, Direction frontFacing, boolean isActive, boolean isWorkingEnabled) {
+        final AABB OverlayLayer = new AABB(-0.00001F , -0.00001F , -0.00001F , 1.00001F , 1.00001F , 1.00001F);
         synchronized (caches) {
             if (side == null) return Collections.emptyList();
             if (!caches.contains(side, frontFacing)) {
@@ -135,7 +131,8 @@ public class WorkableOverlayModel {
                     if (predicate != null) {
                         var texture = predicate.getSprite(isActive, isWorkingEnabled);
                         if (texture != null) {
-                            var quad = FaceQuad.bakeFace(FaceQuad.BLOCK, renderSide, texture, rotation, -1, 0, true, true);
+                            //var quad = FaceQuad.bakeFace(FaceQuad.BLOCK, renderSide, texture, rotation, -1, 0, true, true);
+                            var quad = FaceQuad.bakeFace(OverlayLayer, renderSide, texture, rotation, -1, 0, true, true);
                             if (quad.getDirection() == side) {
                                 quads.add(quad);
                             }
@@ -143,12 +140,14 @@ public class WorkableOverlayModel {
                         texture = predicate.getEmissiveSprite(isActive, isWorkingEnabled);
                         if (texture != null) {
                             if (ConfigHolder.INSTANCE.client.machinesEmissiveTextures) {
-                                var quad = FaceQuad.bakeFace(FaceQuad.BLOCK, renderSide, texture, rotation, -101, 15, true, false);
+                                //var quad = FaceQuad.bakeFace(FaceQuad.BLOCK, renderSide, texture, rotation, -101, 15, true, false);
+                                var quad = FaceQuad.bakeFace(OverlayLayer, renderSide, texture, rotation, -101, 15, true, false);
                                 if (quad.getDirection() == side) {
                                     quads.add(quad);
                                 }
                             } else {
-                                var quad = FaceQuad.bakeFace(FaceQuad.BLOCK, renderSide, texture, rotation, -1, 0, true, true);
+                                //var quad = FaceQuad.bakeFace(FaceQuad.BLOCK, renderSide, texture, rotation, -1, 0, true, true);
+                                var quad = FaceQuad.bakeFace(OverlayLayer, renderSide, texture, rotation, -1, 0, true, true);
                                 if (quad.getDirection() == side) {
                                     quads.add(quad);
                                 }

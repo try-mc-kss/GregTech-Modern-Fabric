@@ -26,4 +26,5 @@ fabric/src/generated/resources/.cache/
 *.DS_Store
 
 #todolist.txt
+crash*.txt
 common/FaceQuad.java

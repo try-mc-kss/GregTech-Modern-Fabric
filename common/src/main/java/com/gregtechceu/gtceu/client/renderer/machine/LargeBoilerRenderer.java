@@ -56,5 +56,4 @@ public class LargeBoilerRenderer extends WorkableCasingMachineRenderer implement
             }
         }
     }
-
 }
