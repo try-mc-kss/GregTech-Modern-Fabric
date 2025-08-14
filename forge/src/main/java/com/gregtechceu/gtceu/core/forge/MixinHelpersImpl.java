@@ -8,13 +8,13 @@ import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 public class MixinHelpersImpl {
 
     public static void addFluidTexture(Material material, FluidStorage.FluidEntry value) {
-        if (value != null) {
-            IClientFluidTypeExtensions extensions = IClientFluidTypeExtensions.of(value.getFluid().get());
-            if (extensions instanceof GTClientFluidTypeExtensions gtExtensions) {
-                gtExtensions.setFlowingTexture(value.getFlowTexture());
-                gtExtensions.setStillTexture(value.getStillTexture());
-                gtExtensions.setTintColor(material.getMaterialARGB());
-            }
+        if (value == null || value.getFluid() == null || value.getStillTexture() == null) return;
+        
+        IClientFluidTypeExtensions extensions = IClientFluidTypeExtensions.of(value.getFluid().get());
+        if (extensions instanceof GTClientFluidTypeExtensions gtExtensions) {
+            gtExtensions.setFlowingTexture(value.getFlowTexture());
+            gtExtensions.setStillTexture(value.getStillTexture());
+            gtExtensions.setTintColor(material.getMaterialARGB());
         }
     }
 }

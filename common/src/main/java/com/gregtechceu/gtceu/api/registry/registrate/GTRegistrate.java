@@ -110,7 +110,7 @@ public abstract class GTRegistrate extends Registrate {
     }
 
     @Override
-    public <T extends Item> @Nonnull ItemBuilder<T, Registrate> item(String name, NonNullFunction<Item.Properties, T> factory) {
+    public <T extends Item> ItemBuilder<T, Registrate> item(String name, NonNullFunction<Item.Properties, T> factory) {
         return super.item(name, factory).lang(FormattingUtil.toEnglishName(name.replaceAll("/.", "_")));
     }
 

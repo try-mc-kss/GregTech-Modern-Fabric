@@ -9,6 +9,7 @@ import com.lowdragmc.lowdraglib.client.model.ModelFactory;
 import com.lowdragmc.lowdraglib.client.renderer.IItemRendererProvider;
 import com.lowdragmc.lowdraglib.utils.ResourceHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -115,7 +116,8 @@ public class WorkableOverlayModel {
 
     @Environment(EnvType.CLIENT)
     public List<BakedQuad> bakeQuads(@Nullable Direction side, Direction frontFacing, boolean isActive, boolean isWorkingEnabled) {
-        final AABB OverlayLayer = new AABB(-0.00001F , -0.00001F , -0.00001F , 1.00001F , 1.00001F , 1.00001F);
+        // steam machine overlay renderer
+        var OverlayLayer = new AABB(-0.0001F , -0.0001F , -0.0001F , 1.0001F , 1.0001F , 1.0001F);
         synchronized (caches) {
             if (side == null) return Collections.emptyList();
             if (!caches.contains(side, frontFacing)) {

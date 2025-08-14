@@ -8,22 +8,22 @@ public enum BoilerType {
 
     BRONZE(800, 1200,
             CASING_BRONZE_BRICKS.getDefaultState(),
-            FIREBOX_BRONZE.getDefaultState(),
+            BURNER_BRONZE.getDefaultState(),
             CASING_BRONZE_PIPE.getDefaultState()),
 
     STEEL(1800, 1800,
             CASING_STEEL_SOLID.getDefaultState(),
-            FIREBOX_STEEL.getDefaultState(),
+            BURNER_STEEL.getDefaultState(),
             CASING_STEEL_PIPE.getDefaultState()),
 
     TITANIUM(3200, 2400,
             CASING_TITANIUM_STABLE.getDefaultState(),
-            FIREBOX_TITANIUM.getDefaultState(),
+            BURNER_TITANIUM.getDefaultState(),
             CASING_TITANIUM_PIPE.getDefaultState()),
 
     TUNGSTENSTEEL(6400, 3000,
             CASING_TUNGSTENSTEEL_ROBUST.getDefaultState(),
-            FIREBOX_TUNGSTENSTEEL.getDefaultState(),
+            BURNER_TUNGSTENSTEEL.getDefaultState(),
             CASING_TUNGSTENSTEEL_PIPE.getDefaultState());
 
     // Workable Data
@@ -32,19 +32,16 @@ public enum BoilerType {
 
     // Structure Data
     public final BlockState casingState;
-    public final BlockState fireboxState;
+    public final BlockState burnerState;
     public final BlockState pipeState;
 
-    BoilerType(int steamPerTick, int ticksToBoiling,
-               BlockState casingState,
-               BlockState fireboxState,
-               BlockState pipeState) {
+    BoilerType(int steamPerTick, int ticksToBoiling, BlockState casingState, BlockState burnerState, BlockState pipeState) {
 
         this.steamPerTick = steamPerTick;
         this.ticksToBoiling = ticksToBoiling;
 
         this.casingState = casingState;
-        this.fireboxState = fireboxState;
+        this.burnerState = burnerState;
         this.pipeState = pipeState;
     }
 

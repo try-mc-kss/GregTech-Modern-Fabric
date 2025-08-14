@@ -650,12 +650,12 @@ public class GTBlocks {
     public static final BlockEntry<Block> CLEANROOM_GLASS = createGlassCasingBlock("cleanroom_glass", GTCEu.id("block/casings/transparent/cleanroom_glass"), () -> RenderType::cutoutMipped);
 
 
-    // Fireboxes
-    public static final Map<BoilerFireboxType, BlockEntry<ActiveBlock>> ALL_FIREBOXES = new HashMap<>();
-    public static final BlockEntry<ActiveBlock> FIREBOX_BRONZE = createFireboxCasing(BoilerFireboxType.BRONZE_FIREBOX);
-    public static final BlockEntry<ActiveBlock> FIREBOX_STEEL = createFireboxCasing(BoilerFireboxType.STEEL_FIREBOX);
-    public static final BlockEntry<ActiveBlock> FIREBOX_TITANIUM = createFireboxCasing(BoilerFireboxType.TITANIUM_FIREBOX);
-    public static final BlockEntry<ActiveBlock> FIREBOX_TUNGSTENSTEEL = createFireboxCasing(BoilerFireboxType.TUNGSTENSTEEL_FIREBOX);
+    // Burners
+    public static final Map<BoilerBurnerType, BlockEntry<ActiveBlock>> ALL_BURNERS = new HashMap<>();
+    public static final BlockEntry<ActiveBlock> BURNER_BRONZE = createBurnerCasing(BoilerBurnerType.BRONZE_BURNER);
+    public static final BlockEntry<ActiveBlock> BURNER_STEEL = createBurnerCasing(BoilerBurnerType.STEEL_BURNER);
+    public static final BlockEntry<ActiveBlock> BURNER_TITANIUM = createBurnerCasing(BoilerBurnerType.TITANIUM_BURNER);
+    public static final BlockEntry<ActiveBlock> BURNER_TUNGSTENSTEEL = createBurnerCasing(BoilerBurnerType.TUNGSTENSTEEL_BURNER);
 
 
     // HPCA, AT
@@ -850,14 +850,14 @@ public class GTBlocks {
                 .register();
     }
 
-    private static BlockEntry<ActiveBlock> createFireboxCasing(BoilerFireboxType type) {
+    private static BlockEntry<ActiveBlock> createBurnerCasing(BoilerBurnerType type) {
         BlockEntry<ActiveBlock> block = REGISTRATE
                 .block("%s_casing".formatted(type.name()), p -> new ActiveBlock(p,
                         Platform.isClient() ? new TextureOverrideRenderer(new ResourceLocation("block/cube_bottom_top"),
                                 Map.of("bottom", type.bottom(),
                                         "top", type.top(),
                                         "side", type.side())) : null,
-                        Platform.isClient() ? new TextureOverrideRenderer(GTCEu.id("block/fire_box_active"),
+                        Platform.isClient() ? new TextureOverrideRenderer(GTCEu.id("block/burner_active"),
                                 Map.of("bottom", type.bottom(),
                                         "top", type.top(),
                                         "side", type.side())) : null))
@@ -869,7 +869,7 @@ public class GTBlocks {
                 .model(NonNullBiConsumer.noop())
                 .build()
                 .register();
-        ALL_FIREBOXES.put(type, block);
+        ALL_BURNERS.put(type, block);
         return block;
     }
 

@@ -34,6 +34,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -91,6 +92,7 @@ public class MachineRenderer extends TextureOverrideRenderer implements ICoverab
     @Environment(EnvType.CLIENT)
     public final List<BakedQuad> renderModel(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, @Nullable BlockState state, @Nullable Direction side, RandomSource rand) {
         if (state != null && state.getBlock() instanceof MetaMachineBlock machineBlock) {
+            var OverlayLayer = new AABB(-0.00001F , -0.00001F , -0.00001F , 1.00001F , 1.00001F , 1.00001F);
             var frontFacing = machineBlock.getFrontFacing(state);
             var machine = (level == null || pos == null) ? null : machineBlock.getMachine(level, pos);
             if (machine != null) {
@@ -100,18 +102,17 @@ public class MachineRenderer extends TextureOverrideRenderer implements ICoverab
                 var quads = new LinkedList<BakedQuad>();
                 // render machine additional quads
                 renderMachine(quads, definition, machine, frontFacing, side, rand, modelFacing, modelState);
-
                 // render auto IO
                 if (machine instanceof IAutoOutputItem autoOutputItem) {
                     var itemFace = autoOutputItem.getOutputFacingItems();
                     if (itemFace != null && side == itemFace) {
-                        quads.add(FaceQuad.bakeFace(modelFacing, ModelFactory.getBlockSprite(PIPE_OVERLAY), modelState));
+                        quads.add(FaceQuad.bakeFace(OverlayLayer, modelFacing, ModelFactory.getBlockSprite(PIPE_OVERLAY), modelState, -1, 0, true, true));
                     }
                 }
                 if (machine instanceof IAutoOutputFluid autoOutputFluid) {
                     var fluidFace = autoOutputFluid.getOutputFacingFluids();
                     if (fluidFace != null && side == fluidFace) {
-                        quads.add(FaceQuad.bakeFace(modelFacing, ModelFactory.getBlockSprite(PIPE_OVERLAY), modelState));
+                        quads.add(FaceQuad.bakeFace(OverlayLayer, modelFacing, ModelFactory.getBlockSprite(PIPE_OVERLAY), modelState, -1, 0, true, true));
                     }
                 }
 
@@ -119,7 +120,7 @@ public class MachineRenderer extends TextureOverrideRenderer implements ICoverab
                     var itemFace = autoOutputItem.getOutputFacingItems();
                     if (itemFace != null && side == itemFace) {
                         if (autoOutputItem.isAutoOutputItems()) {
-                            quads.add(FaceQuad.bakeFace(modelFacing, ModelFactory.getBlockSprite(ITEM_OUTPUT_OVERLAY), modelState, -101, 15));
+                            quads.add(FaceQuad.bakeFace(OverlayLayer, modelFacing, ModelFactory.getBlockSprite(ITEM_OUTPUT_OVERLAY), modelState, -101, 15, true, true));
                         }
                     }
                 }
@@ -128,7 +129,7 @@ public class MachineRenderer extends TextureOverrideRenderer implements ICoverab
                     var fluidFace = autoOutputFluid.getOutputFacingFluids();
                     if (fluidFace != null && side == fluidFace) {
                         if (autoOutputFluid.isAutoOutputFluids()) {
-                            quads.add(FaceQuad.bakeFace(modelFacing, ModelFactory.getBlockSprite(FLUID_OUTPUT_OVERLAY), modelState, -101, 15));
+                            quads.add(FaceQuad.bakeFace(OverlayLayer, modelFacing, ModelFactory.getBlockSprite(FLUID_OUTPUT_OVERLAY), modelState, -101, 15, true, true));
                         }
                     }
                 }

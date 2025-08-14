@@ -119,15 +119,15 @@ public class OreGenerator {
 
         return OreVeinUtil.getVeinCenter(chunkPos, random).stream().flatMap(veinCenter ->
                 getEntries(level, veinCenter, random).map(entry -> {
-                    var id = GTRegistries.ORE_VEINS.getKey(entry);
-
                     if (entry == null) return null;
-                    BlockPos origin = computeVeinOrigin(level, generator, random, veinCenter, entry).orElseThrow(() ->
-                            new IllegalStateException("Cannot determine y coordinate for the vein at " + veinCenter)
-                    );
-
-                    return new VeinConfiguration(new GeneratedVeinMetadata(id, chunkPos, origin, entry), random);
-                })
+                    
+                    var id = GTRegistries.ORE_VEINS.getKey(entry);
+                    if (id == null) return null;
+                    
+                    return computeVeinOrigin(level, generator, random, veinCenter, entry).map(origin -> 
+                        new VeinConfiguration(new GeneratedVeinMetadata(id, chunkPos, origin, entry), random)
+                    ).orElse(null);
+                }).filter(Objects::nonNull)
         ).toList();
     }
 
@@ -140,11 +140,16 @@ public class OreGenerator {
 
     @Nullable
     private GTOreDefinition getEntry(WorldGenLevel level, Holder<Biome> biome, RandomSource random, IWorldGenLayer layer) {
+        if (level == null || biome == null || layer == null) return null;
+        
         var veins = WorldGeneratorUtils.getCachedBiomeVeins(level.getLevel(), biome, random).stream()
-                .filter(vein -> vein.getValue().layer().equals(layer))
+                .filter(vein -> vein != null && vein.getValue() != null && vein.getValue().layer() != null && vein.getValue().layer().equals(layer))
                 .toList();
+        
+        if (veins.isEmpty()) return null;
+        
         int randomEntryIndex = GTUtil.getRandomItem(random, veins, veins.size());
-        return randomEntryIndex == -1 ? null : veins.get(randomEntryIndex).getValue();
+        return randomEntryIndex == -1 || randomEntryIndex >= veins.size() ? null : veins.get(randomEntryIndex).getValue();
     }
 
     @NotNull

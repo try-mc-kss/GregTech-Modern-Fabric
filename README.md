@@ -8,6 +8,8 @@ GregTech based on Architectury for performing on Forge, Fabric, and Quilt, simul
 
 ## Credited Works
 
+- Origin project: **[GregTech-Modern](https://github.com/GregTechCEu/GregTech-Modern/)**
+- GregTechCEu is based on the **[GregTech 5](https://github.com/GTNewHorizons/GT5)** mod.
 - Most textures are originally from the **[ZedTech GTCEu Resourcepack](https://github.com/brachy84/zedtech-ceu)**, with some changes made by the community.
 - New material item textures by @TTFTCUTS and @Rosethorns.
 - Wooden Forms, World Accelerators, and the Extreme Combustion Engine are from the **[GregTech: New Horizons Modpack](https://www.curseforge.com/minecraft/modpacks/gt-new-horizons)**.

@@ -119,7 +119,11 @@ public class VeinedVeinGenerator extends VeinGenerator {
     public Map<BlockPos, OreBlockPlacer> generate(WorldGenLevel level, RandomSource random, GTOreDefinition entry, BlockPos origin) {
         Map<BlockPos, OreBlockPlacer> generatedBlocks = new Object2ObjectOpenHashMap<>();
 
-        Registry<? extends DensityFunction> densityFunctions = GTRegistries.builtinRegistry().registry(Registries.DENSITY_FUNCTION).get();
+        Registry<? extends DensityFunction> densityFunctions = GTRegistries.builtinRegistry().registry(Registries.DENSITY_FUNCTION).orElse(null);
+        
+        if (densityFunctions == null) {
+            return generatedBlocks;
+        }
 
         List<? extends Map.Entry<Integer, VeinBlockDefinition>> commonEntries = oreBlocks.stream().map(b -> Map.entry(b.weight, b)).toList();
         List<? extends Map.Entry<Integer, VeinBlockDefinition>> rareEntries = rareBlocks == null ? null : rareBlocks.stream().map(b -> Map.entry(b.weight, b)).toList(); // never accessed if rareBlocks is null
@@ -135,6 +139,11 @@ public class VeinedVeinGenerator extends VeinGenerator {
         final Blender finalizedBlender = blender;
         DensityFunction veinToggle = mapToNoise(densityFunctions.get(GTFeatures.NEW_ORE_VEIN_TOGGLE), randomState);
         DensityFunction veinRidged = mapToNoise(densityFunctions.get(GTFeatures.NEW_ORE_VEIN_RIDGED), randomState);
+        
+        // Check if the density functions are null to prevent NullPointerException
+        if (veinToggle == null || veinRidged == null) {
+            return generatedBlocks;
+        }
 
         int size = entry.clusterSize();
 
@@ -320,7 +329,11 @@ public class VeinedVeinGenerator extends VeinGenerator {
         }
     }
 
-    private static DensityFunction mapToNoise(DensityFunction function, RandomState randomState) {
+    private static DensityFunction mapToNoise(@Nullable DensityFunction function, RandomState randomState) {
+        if (function == null) {
+            return null;
+        }
+        
         return function.mapAll(new DensityFunction.Visitor() {
             @Override
             public DensityFunction apply(DensityFunction densityFunction) {

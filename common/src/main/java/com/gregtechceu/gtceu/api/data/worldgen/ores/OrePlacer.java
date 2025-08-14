@@ -45,7 +45,10 @@ public class OrePlacer {
     }
 
     private void placeVein(ChunkAccess chunk, RandomSource random, BulkSectionAccess access, GeneratedVein generatedVein) {
+        if (generatedVein == null || generatedVein.getLayer() == null) return;
+        
         RuleTest layerTarget = generatedVein.getLayer().getTarget();
+        if (layerTarget == null) return;
 
         resolvePlacerLists(chunk, generatedVein).forEach(((sectionPos, placers) -> {
             LevelChunkSection section = access.getSection(sectionPos.origin());
@@ -54,6 +57,8 @@ public class OrePlacer {
                 return;
 
             placers.forEach((pos, placer) -> {
+                if (placer == null) return;
+                
                 var blockState = section.getBlockState(
                         SectionPos.sectionRelative(pos.getX()),
                         SectionPos.sectionRelative(pos.getY()),

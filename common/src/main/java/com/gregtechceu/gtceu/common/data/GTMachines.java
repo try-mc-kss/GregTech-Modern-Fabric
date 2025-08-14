@@ -33,7 +33,7 @@ import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 import com.gregtechceu.gtceu.client.TooltipHelper;
 import com.gregtechceu.gtceu.client.renderer.machine.*;
-import com.gregtechceu.gtceu.common.block.BoilerFireboxType;
+import com.gregtechceu.gtceu.common.block.BoilerBurnerType;
 import com.gregtechceu.gtceu.common.machine.electric.*;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.*;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeCombustionEngineMachine;
@@ -802,14 +802,14 @@ public class GTMachines {
     //////////////////////////////////////
     //*******     Multiblock     *******//
     //////////////////////////////////////
-    public final static MultiblockMachineDefinition LARGE_BOILER_BRONZE = registerLargeBoiler("bronze", CASING_BRONZE_BRICKS, CASING_BRONZE_PIPE, FIREBOX_BRONZE,
-            GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), BoilerFireboxType.BRONZE_FIREBOX, 800, 1);
-    public final static MultiblockMachineDefinition LARGE_BOILER_STEEL = registerLargeBoiler("steel", CASING_STEEL_SOLID, CASING_STEEL_PIPE, FIREBOX_STEEL,
-            GTCEu.id("block/casings/solid/machine_casing_solid_steel"), BoilerFireboxType.STEEL_FIREBOX, 1800, 1);
-    public final static MultiblockMachineDefinition LARGE_BOILER_TITANIUM = registerLargeBoiler("titanium", CASING_TITANIUM_STABLE, CASING_TITANIUM_PIPE, FIREBOX_TITANIUM,
-            GTCEu.id("block/casings/solid/machine_casing_stable_titanium"), BoilerFireboxType.TITANIUM_FIREBOX, 3200, 1);
-    public final static MultiblockMachineDefinition LARGE_BOILER_TUNGSTENSTEEL = registerLargeBoiler("tungstensteel", CASING_TUNGSTENSTEEL_ROBUST, CASING_TUNGSTENSTEEL_PIPE, FIREBOX_TUNGSTENSTEEL,
-            GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"), BoilerFireboxType.TUNGSTENSTEEL_FIREBOX, 6400, 2);
+    public final static MultiblockMachineDefinition LARGE_BOILER_BRONZE = registerLargeBoiler("bronze", CASING_BRONZE_BRICKS, CASING_BRONZE_PIPE, BURNER_BRONZE,
+            GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), BoilerBurnerType.BRONZE_BURNER, 800, 1);
+    public final static MultiblockMachineDefinition LARGE_BOILER_STEEL = registerLargeBoiler("steel", CASING_STEEL_SOLID, CASING_STEEL_PIPE, BURNER_STEEL,
+            GTCEu.id("block/casings/solid/machine_casing_solid_steel"), BoilerBurnerType.STEEL_BURNER, 1800, 1);
+    public final static MultiblockMachineDefinition LARGE_BOILER_TITANIUM = registerLargeBoiler("titanium", CASING_TITANIUM_STABLE, CASING_TITANIUM_PIPE, BURNER_TITANIUM,
+            GTCEu.id("block/casings/solid/machine_casing_stable_titanium"), BoilerBurnerType.TITANIUM_BURNER, 3200, 1);
+    public final static MultiblockMachineDefinition LARGE_BOILER_TUNGSTENSTEEL = registerLargeBoiler("tungstensteel", CASING_TUNGSTENSTEEL_ROBUST, CASING_TUNGSTENSTEEL_PIPE, BURNER_TUNGSTENSTEEL,
+            GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"), BoilerBurnerType.TUNGSTENSTEEL_BURNER, 6400, 2);
 
     public final static MultiblockMachineDefinition COKE_OVEN = REGISTRATE.multiblock("coke_oven", CokeOvenMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
@@ -1270,10 +1270,10 @@ public class GTMachines {
                     .where('X', blocks(CASING_BRONZE_BRICKS.get()).setMinGlobalLimited(6)
                             .or(Predicates.abilities(PartAbility.STEAM_IMPORT_ITEMS).setPreviewCount(1))
                             .or(Predicates.abilities(PartAbility.STEAM_EXPORT_ITEMS).setPreviewCount(1)))
-                    .where('F', blocks(FIREBOX_BRONZE.get())
+                    .where('F', blocks(BURNER_BRONZE.get())
                             .or(Predicates.abilities(PartAbility.STEAM).setExactLimit(1)))
                     .build())
-            .renderer(() -> new LargeBoilerRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), BoilerFireboxType.BRONZE_FIREBOX,
+            .renderer(() -> new LargeBoilerRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), BoilerBurnerType.BRONZE_BURNER,
                     GTCEu.id("block/multiblock/steam_oven")))
             .compassSections(GTCompassSections.STEAM)
             .compassNodeSelf()
@@ -1823,10 +1823,7 @@ public class GTMachines {
                 .register(), HIGH_TIERS);
     }
 
-    public static MultiblockMachineDefinition[] registerTieredMultis(String name,
-                                                             BiFunction<IMachineBlockEntity, Integer, MultiblockControllerMachine> factory,
-                                                             BiFunction<Integer, MultiblockMachineBuilder, MultiblockMachineDefinition> builder,
-                                                             int... tiers) {
+    public static MultiblockMachineDefinition[] registerTieredMultis(String name, BiFunction<IMachineBlockEntity, Integer, MultiblockControllerMachine> factory, BiFunction<Integer, MultiblockMachineBuilder, MultiblockMachineDefinition> builder, int... tiers) {
         MultiblockMachineDefinition[] definitions = new MultiblockMachineDefinition[GTValues.TIER_COUNT];
         for (int tier : tiers) {
             var register = REGISTRATE.multiblock(GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + name, holder -> factory.apply(holder, tier))
@@ -1836,21 +1833,21 @@ public class GTMachines {
         return definitions;
     }
 
-    public static MultiblockMachineDefinition registerLargeBoiler(String name, Supplier<? extends Block> casing, Supplier<? extends Block> pipe, Supplier<? extends Block> fireBox, ResourceLocation texture, BoilerFireboxType firebox, int maxTemperature, int heatSpeed) {
+    public static MultiblockMachineDefinition registerLargeBoiler(String name, Supplier<? extends Block> casing, Supplier<? extends Block> pipe, Supplier<? extends Block> Burner, ResourceLocation texture, BoilerBurnerType burner, int maxTemperature, int heatSpeed) {
         return REGISTRATE.multiblock("%s_large_boiler".formatted(name), holder -> new LargeBoilerMachine(holder, maxTemperature, heatSpeed))
                 .langValue("Large %s Boiler".formatted(FormattingUtil.toEnglishName(name)))
                 .rotationState(RotationState.NON_Y_AXIS)
                 .recipeType(GTRecipeTypes.LARGE_BOILER_RECIPES)
                 .recipeModifier(LargeBoilerMachine::recipeModifier)
                 .appearanceBlock(casing)
-                .partAppearance((controller, part, side) -> controller.self().getPos().below().getY() == part.self().getPos().getY() ? fireBox.get().defaultBlockState() : casing.get().defaultBlockState())
+                .partAppearance((controller, part, side) -> controller.self().getPos().below().getY() == part.self().getPos().getY() ? Burner.get().defaultBlockState() : casing.get().defaultBlockState())
                 .pattern(definition -> FactoryBlockPattern.start()
                         .aisle("XXX", "CCC", "CCC", "CCC")
                         .aisle("XXX", "CPC", "CPC", "CCC")
                         .aisle("XXX", "CSC", "CCC", "CCC")
                         .where('S', Predicates.controller(blocks(definition.getBlock())))
                         .where('P', blocks(pipe.get()))
-                        .where('X', states(ALL_FIREBOXES.get(firebox).getDefaultState()).setMinGlobalLimited(4)
+                        .where('X', states(ALL_BURNERS.get(burner).getDefaultState()).setMinGlobalLimited(4)
                                 .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(1).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.MUFFLER).setExactLimit(1))
@@ -1859,7 +1856,7 @@ public class GTMachines {
                                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMinGlobalLimited(1).setPreviewCount(1)))
                         .build())
                 .recoveryItems(() -> new ItemLike[]{GTItems.MATERIAL_ITEMS.get(TagPrefix.dustTiny, GTMaterials.Ash).get()})
-                .renderer(() -> new LargeBoilerRenderer(texture, firebox, GTCEu.id("block/multiblock/generator/large_%s_boiler".formatted(name))))
+                .renderer(() -> new LargeBoilerRenderer(texture, burner, GTCEu.id("block/multiblock/generator/large_%s_boiler".formatted(name))))
                 .tooltips(
                         Component.translatable("gtceu.multiblock.large_boiler.max_temperature", (int)(maxTemperature + 274.15), maxTemperature),
                         Component.translatable("gtceu.multiblock.large_boiler.heat_time_tooltip", maxTemperature / heatSpeed / 20),

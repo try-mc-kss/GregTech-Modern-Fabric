@@ -108,10 +108,10 @@
     "gtceu:filter_casing",
     "gtceu:sterilizing_filter_casing",
     "gtceu:cleanroom_glass",
-    "gtceu:bronze_firebox_casing",
-    "gtceu:steel_firebox_casing",
-    "gtceu:titanium_firebox_casing",
-    "gtceu:tungstensteel_firebox_casing",
+    "gtceu:bronze_burner_casing",
+    "gtceu:steel_burner_casing",
+    "gtceu:titanium_burner_casing",
+    "gtceu:tungstensteel_burner_casing",
     "gtceu:high_power_casing"
   ]
 }

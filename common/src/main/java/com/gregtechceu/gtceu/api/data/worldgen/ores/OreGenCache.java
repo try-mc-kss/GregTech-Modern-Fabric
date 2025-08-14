@@ -71,9 +71,12 @@ public class OreGenCache {
     public List<GeneratedVein> consumeChunkVeins(WorldGenLevel level, ChunkGenerator generator, ChunkAccess chunk) {
         return getSurroundingChunks(chunk.getPos(), OreVeinUtil.getMaxVeinSearchDistance()).flatMap(chunkPos -> {
             try {
-                return generatedVeinsByOrigin
-                        .get(chunkPos, () -> oreGenerator.generateOres(level, getOrCreateVeinMetadata(level, generator, chunkPos), chunkPos))
-                        .stream();
+                List<GeneratedVein> generatedVeins = generatedVeinsByOrigin
+                        .get(chunkPos, () -> oreGenerator.generateOres(level, getOrCreateVeinMetadata(level, generator, chunkPos), chunkPos));
+                if (generatedVeins == null) {
+                    return Stream.empty();
+                }
+                return generatedVeins.stream();
             } catch (ExecutionException e) {
                 GTCEu.LOGGER.error("Cannot create vein in chunk " + chunkPos, e);
                 return Stream.empty();
@@ -89,9 +92,12 @@ public class OreGenCache {
     public List<GeneratedIndicators> consumeChunkIndicators(WorldGenLevel level, ChunkGenerator generator, ChunkAccess chunk) {
         return getSurroundingChunks(chunk.getPos(), OreVeinUtil.getMaxIndicatorSearchDistance()).flatMap(chunkPos -> {
             try {
-                return indicatorsByOrigin
-                        .get(chunkPos, () -> oreGenerator.generateIndicators(level, getOrCreateVeinMetadata(level, generator, chunkPos), chunkPos))
-                        .stream();
+                List<GeneratedIndicators> indicators = indicatorsByOrigin
+                        .get(chunkPos, () -> oreGenerator.generateIndicators(level, getOrCreateVeinMetadata(level, generator, chunkPos), chunkPos));
+                if (indicators == null) {
+                    return Stream.empty();
+                }
+                return indicators.stream();
             } catch (ExecutionException e) {
                 GTCEu.LOGGER.error("Cannot create vein in chunk " + chunkPos, e);
                 return Stream.empty();

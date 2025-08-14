@@ -19,12 +19,11 @@ classes/
 .settings
 *.launch
 .architectury-transformer/debug.log
-forge/src/generated/resources/.cache/
-fabric/src/generated/resources/.cache/
+forge/src/generated
+fabric/src/generated
 
 *.patch
 *.DS_Store
 
 #todolist.txt
 crash*.txt
-common/FaceQuad.java
