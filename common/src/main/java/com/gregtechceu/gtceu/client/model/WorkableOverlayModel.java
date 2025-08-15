@@ -34,7 +34,7 @@ import java.util.function.Consumer;
 /**
  * @author KilaBash
  * @date 2023/2/20
- * @implNote WorkableOverlayModel
+ * @implNote SiengleWorkableOverlayModel
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -116,8 +116,6 @@ public class WorkableOverlayModel {
 
     @Environment(EnvType.CLIENT)
     public List<BakedQuad> bakeQuads(@Nullable Direction side, Direction frontFacing, boolean isActive, boolean isWorkingEnabled) {
-        // steam machine overlay renderer
-        var OverlayLayer = new AABB(-0.0001F , -0.0001F , -0.0001F , 1.0001F , 1.0001F , 1.0001F);
         synchronized (caches) {
             if (side == null) return Collections.emptyList();
             if (!caches.contains(side, frontFacing)) {
@@ -127,29 +125,27 @@ public class WorkableOverlayModel {
             assert cache != null;
             if (cache[isActive ? 0 : 1][isWorkingEnabled ? 0 : 1] == null) {
                 var quads = new ArrayList<BakedQuad>();
+                var Overlay = new AABB(-0.0001, -0.0001, -0.0001, 1.0001, 1.0001, 1.0001);
                 for (Direction renderSide : Direction.values()) {
                     var rotation = ModelFactory.getRotation(frontFacing);
                     ActivePredicate predicate = sprites.get(OverlayFace.bySide(renderSide));
                     if (predicate != null) {
                         var texture = predicate.getSprite(isActive, isWorkingEnabled);
                         if (texture != null) {
-                            //var quad = FaceQuad.bakeFace(FaceQuad.BLOCK, renderSide, texture, rotation, -1, 0, true, true);
-                            var quad = FaceQuad.bakeFace(OverlayLayer, renderSide, texture, rotation, -1, 0, true, true);
+                            var quad = FaceQuad.bakeFace(Overlay, renderSide, texture, rotation, -1, 0, true, true);
                             if (quad.getDirection() == side) {
-                                quads.add(quad);
+                                quads.add(quad);// multiblock machine controller overlay renderer
                             }
                         }
                         texture = predicate.getEmissiveSprite(isActive, isWorkingEnabled);
                         if (texture != null) {
                             if (ConfigHolder.INSTANCE.client.machinesEmissiveTextures) {
-                                //var quad = FaceQuad.bakeFace(FaceQuad.BLOCK, renderSide, texture, rotation, -101, 15, true, false);
-                                var quad = FaceQuad.bakeFace(OverlayLayer, renderSide, texture, rotation, -101, 15, true, false);
+                                var quad = FaceQuad.bakeFace(Overlay, renderSide, texture, rotation, -101, 15, true, false);
                                 if (quad.getDirection() == side) {
-                                    quads.add(quad);
+                                    quads.add(quad);// multiblock machine controller emissive overlay renderer 
                                 }
                             } else {
-                                //var quad = FaceQuad.bakeFace(FaceQuad.BLOCK, renderSide, texture, rotation, -1, 0, true, true);
-                                var quad = FaceQuad.bakeFace(OverlayLayer, renderSide, texture, rotation, -1, 0, true, true);
+                                var quad = FaceQuad.bakeFace(Overlay, renderSide, texture, rotation, -1, 0, true, true);
                                 if (quad.getDirection() == side) {
                                     quads.add(quad);
                                 }

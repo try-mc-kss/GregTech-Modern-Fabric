@@ -854,13 +854,9 @@ public class GTBlocks {
         BlockEntry<ActiveBlock> block = REGISTRATE
                 .block("%s_casing".formatted(type.name()), p -> new ActiveBlock(p,
                         Platform.isClient() ? new TextureOverrideRenderer(new ResourceLocation("block/cube_bottom_top"),
-                                Map.of("bottom", type.bottom(),
-                                        "top", type.top(),
-                                        "side", type.side())) : null,
+                            Map.of("bottom", type.bottom(), "top", type.top(), "side", type.side())) : null,
                         Platform.isClient() ? new TextureOverrideRenderer(GTCEu.id("block/burner_active"),
-                                Map.of("bottom", type.bottom(),
-                                        "top", type.top(),
-                                        "side", type.side())) : null))
+                            Map.of("bottom", type.bottom(), "top", type.top(), "side", type.side())) : null))
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .addLayer(() -> RenderType::cutoutMipped)
                 .blockstate(NonNullBiConsumer.noop())

@@ -30,6 +30,8 @@ public class CTMModelRenderer extends IModelRenderer {
 
     @Override
     public float reBakeCustomQuadsOffset() {
-        return 0.0f;
+        // positive value means that the model will be rendered outward, negative value means inward
+        //return LOW_PRECISION.get() ? -0.1002f : -0.1001f;
+        return 0;
     }
 }

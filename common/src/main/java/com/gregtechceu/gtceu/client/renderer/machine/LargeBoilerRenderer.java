@@ -38,25 +38,28 @@ public class LargeBoilerRenderer extends WorkableCasingMachineRenderer implement
     @Environment(EnvType.CLIENT)
     public void renderPartModel(List<BakedQuad> quads, IMultiController machine, IMultiPart part, Direction frontFacing, @Nullable Direction side, RandomSource rand, Direction modelFacing, ModelState modelState) {
         // We have to render it ourselves to avoid uv issues
-        var OverlayLayer = new AABB(0.0002F , 0.0002F , 0.0002F , 0.9998F , 0.9998F , 0.9998F);
+        var PartOverlay = new AABB(0.0001 , 0.0001 , 0.0001 , 0.9999 , 0.9999, 0.9999);
         if (machine.self().getPos().below().getY() == part.self().getPos().getY()) {
-            // burner render
+            // converted burner renderer
             if (side != null && modelFacing != null) {
                 if (side == Direction.UP) {
-                    //quads.add(FaceQuad.bakeFace(modelFacing, ModelFactory.getBlockSprite(burner.top()), modelState));
+                    //quads.add(FaceQuad.bakeFace(modelFacing, ModelFactory.getBlockSprite(burner.top()), modelState)); converted burner top surface renderer,but no block will replaced at top.
                 } else if (side == Direction.DOWN) {
-                    //quads.add(FaceQuad.bakeFace(OverlayLayer, modelFacing, ModelFactory.getBlockSprite(burner.bottom()), modelState, -101, 15, true, false));
+                    quads.add(FaceQuad.bakeFace(PartOverlay, modelFacing, ModelFactory.getBlockSprite(burner.bottom()), modelState, -1, 0, true, true));
+                    // converted burner buttom surface renderer
                 } else {
-                    quads.add(FaceQuad.bakeFace(OverlayLayer, modelFacing, ModelFactory.getBlockSprite(burner.side()), modelState, -1, 0,
-                    true, true));// transfered part renderers of burner
+                    quads.add(FaceQuad.bakeFace(PartOverlay, modelFacing, ModelFactory.getBlockSprite(burner.side()), modelState, -1, 0, true, true));
+                    // converted burner side surface renderer
                     if (machine instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic().isWorking()) {
-                        quads.add(FaceQuad.bakeFace(OverlayLayer, modelFacing, ModelFactory.getBlockSprite(BLOOM_OVERLAY), modelState, -101, 15, true, false));
+                        quads.add(FaceQuad.bakeFace(modelFacing, ModelFactory.getBlockSprite(BLOOM_OVERLAY), modelState, -101, 15));
+                        // converted burner emissive overlay renderer
                     }
                 }
             }
         } else {
             if (side != null && modelFacing != null) {
-                quads.add(FaceQuad.bakeFace(modelFacing, ModelFactory.getBlockSprite(baseCasing), modelState));
+                quads.add(FaceQuad.bakeFace(PartOverlay, modelFacing, ModelFactory.getBlockSprite(baseCasing), modelState, -1, 0, true, true));
+                // converted casing surface renderer
             }
         }
     }

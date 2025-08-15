@@ -45,9 +45,10 @@ public class WorkableCasingMachineRenderer extends MachineRenderer {
     public void renderMachine(List<BakedQuad> quads, MachineDefinition definition, @Nullable MetaMachine machine, Direction frontFacing, @Nullable Direction side, RandomSource rand, @Nullable Direction modelFacing, ModelState modelState) {
         super.renderMachine(quads, definition, machine, frontFacing, side, rand, modelFacing, modelState);
         if (machine instanceof IWorkable workable) {
-            // steam multiblock machine overlay render backer
+            // steam multiblock machine controller overlay render packer
             quads.addAll(overlayModel.bakeQuads(side, frontFacing, workable.isActive(), workable.isWorkingEnabled()));
         } else {
+            // item multiblock machine controller overlay render packer
             quads.addAll(overlayModel.bakeQuads(side, frontFacing, false, false));
         }
     }
