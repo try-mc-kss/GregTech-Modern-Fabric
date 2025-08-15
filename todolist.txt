@@ -1,3 +1,4 @@
 TODO:
-1.repair flashing ores' edge
+1.repair ores' transparent bounding box
 2.add solar boiler light level support
+3.add fluid pourable
