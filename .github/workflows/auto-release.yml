@@ -15,6 +15,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
+          fetch-depth: 0  # 添加深度获取以访问标签历史
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -29,7 +30,7 @@ jobs:
         uses: gradle/gradle-build-action@v3.5.0
         with:
           cache-read-only: false  # allow caching
-          arguments: build        # process build cahhe automaticly
+          arguments: build        # process build cache automaticly
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -65,22 +66,31 @@ jobs:
       - name: Get Version
         id: var
         run: |
-          MESSAGE=$(ls fabric/build/libs/* | grep sources.jar -v | grep shadow.jar -v | grep slim.jar -v | awk -F 'gtceu-fabric-|.jar' '{print $2}')
-          echo fabric_version=$MESSAGE >> $GITHUB_OUTPUT
-          MESSAGE=$(ls forge/build/libs/* | grep sources.jar -v | grep shadow.jar -v | grep slim.jar -v | awk -F 'gtceu-forge-|.jar' '{print $2}')
-          echo forge_version=$MESSAGE >> $GITHUB_OUTPUT
-          echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
+          # 从标签名获取纯净版本号
+          TAG_NAME="${GITHUB_REF#refs/tags/}"
+          echo "raw_tag=$TAG_NAME" >> $GITHUB_OUTPUT
+          
+          # 检测是否为预发布版本（包含"-"）
+          if [[ $TAG_NAME == *"-"* ]]; then
+            echo "prerelease=true" >> $GITHUB_OUTPUT
+          else
+            echo "prerelease=false" >> $GITHUB_OUTPUT
+          fi
+          
+          # 提取主版本号用于Modrinth
+          BASE_VERSION=$(echo "$TAG_NAME" | sed -E 's/^v?([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
+          echo "base_version=$BASE_VERSION" >> $GITHUB_OUTPUT
 
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: actions/create-release@v2  # 升级到v2版本
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: GregTechCEu ${{ steps.var.outputs.fabric_version }}
+          tag_name: ${{ steps.var.outputs.raw_tag }}  # 使用纯净标签名
+          release_name: GregTechCEu ${{ steps.var.outputs.base_version }}
           draft: false
-          prerelease: ${{ contains(github.ref, '-') }}
+          prerelease: ${{ steps.var.outputs.prerelease }}  # 动态检测预发布状态
 
       - name: Upload Fabric Release Asset
         uses: actions/upload-release-asset@v1
