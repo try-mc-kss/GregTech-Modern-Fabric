@@ -4,7 +4,8 @@ run/
 *.iws
 out/
 *.iml
-.gradle/
+.gradle/**
+!.gradle/loom-cache/remapped_mods/dev/latvian/mods/
 output/
 bin/
 libs/
