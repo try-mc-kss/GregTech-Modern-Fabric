@@ -29,6 +29,13 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2.4.2
 
+      # 清理Loom缓存以解决POM文件相关错误
+      - name: Clean Loom cache
+        run: |
+          echo "Cleaning Loom cache to resolve POM file issues"
+          ./gradlew cleanLoom
+        continue-on-error: true
+
       # Setup Gradle and Loom caches
       - name: Cache Gradle packages
         uses: actions/cache@v3
@@ -44,8 +51,9 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build with Gradle Wrapper
-        run: ./gradlew build
+      # 强制刷新依赖以解决kubejs-fabric POM文件问题
+      - name: Refresh dependencies
+        run: ./gradlew build --refresh-dependencies
 
       # 手动上传特定文件到缓存 (示例)
       - name: Upload specific files to cache (example)
@@ -85,4 +93,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           files: |
             fabric/build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
-            forge/build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
+            forge/build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
