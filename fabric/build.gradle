@@ -84,7 +84,7 @@ repositories {
     maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
     maven { url = "https://jitpack.io/" } // Mixin Extras, Fabric ASM
     maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
-    maven { url = "https://maven.saps.dev/minecraft" } // saps.dev Maven (KubeJS and Rhino)
+    maven { url = "https://maven.latvian.dev/releases" } // saps.dev Maven (KubeJS and Rhino)
 }
 
 dependencies {
