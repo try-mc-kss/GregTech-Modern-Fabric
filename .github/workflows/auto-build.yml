@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - '1.20.1'
-  workflow_dispatch: # 允许手动触发工作流
 
 jobs:
   build:
@@ -29,13 +28,6 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2.4.2
 
-      # 清理Loom缓存以解决POM文件相关错误
-      - name: Clean Loom cache
-        run: |
-          echo "Cleaning Loom cache to resolve POM file issues"
-          ./gradlew cleanLoom
-        continue-on-error: true
-
       # Setup Gradle and Loom caches
       - name: Cache Gradle packages
         uses: actions/cache@v3
@@ -51,34 +43,8 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # 强制刷新依赖以解决kubejs-fabric POM文件问题
-      - name: Refresh dependencies
-        run: ./gradlew build --refresh-dependencies
-
-      # 手动上传特定文件到缓存 (示例)
-      - name: Upload specific files to cache (example)
-        if: always() # 总是执行，即使之前的步骤失败
-        run: |
-          # 创建一个目录用于存储要缓存的文件
-          mkdir -p ./custom-cache
-          
-          # 复制特定文件到缓存目录 (示例：复制构建产物)
-          cp -r fabric/build/libs/*.jar ./custom-cache/ 2>/dev/null || echo "No fabric jars to copy"
-          cp -r forge/build/libs/*.jar ./custom-cache/ 2>/dev/null || echo "No forge jars to copy"
-          
-          # 如果需要，也可以复制其他重要文件
-          # cp -r ./.gradle/loom-cache/remapped_mods/dev/latvian/mods/* ./custom-cache/ 2>/dev/null || echo "No loom mods to copy"
-          
-          echo "Custom cache prepared"
-
-      # 缓存自定义文件
-      - name: Cache custom files
-        uses: actions/cache@v3
-        with:
-          path: ./custom-cache
-          key: ${{ runner.os }}-custom-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-custom-
+      - name: Build with Gradle Wrapper
+        run: ./gradlew build
 
       - name: Get Version
         id: var
@@ -93,4 +59,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           files: |
             fabric/build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
-            forge/build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
+            forge/build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
