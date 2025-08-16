@@ -30,6 +30,37 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      
+      - name: Cache Maven dependencies
+        id: maven-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./.gradle/8.6/fileHashes/resourceHashesCache.bin
+            ./.gradle/buildOutputCleanup/cache.properties
+            ./.gradle/loom-cache
+            ./common/.gradle/architectury-cache
+            ./common/.gradle/loom-cache
+            ./common/bin/main/com/gregtechceu/gtceu/api/data/worldgen/ores/OreGenCache.class
+            ./common/bin/main/com/gregtechceu/gtceu/api/data/worldgen/WorldGeneratorUtils$WorldOreVeinCache.class
+            ./common/build/classes/java/main/com/gregtechceu/gtceu/api/data/worldgen/ores/OreGenCache.class
+            ./common/build/classes/java/main/com/gregtechceu/gtceu/api/data/worldgen/WorldGeneratorUtils$WorldOreVeinCache.class
+            ./common/build/loom-cache
+            ./common/src/main/java/com/gregtechceu/gtceu/api/data/worldgen/ores/OreGenCache.java
+            ./fabric/.gradle/architectury-cache
+            ./fabric/.gradle/loom-cache
+            ./fabric/build/loom-cache
+            ./fabric/build/tmp/.cache
+            ./fabric/run/config/jade/usernamecache.json
+            ./fabric/run/local/kubejs/cache
+            ./fabric/run/usercache.json
+            ./fabric/run/usernamecache.json
+            ./forge/.gradle/loom-cache
+            ./forge/build/loom-cache
+            ./forge/build/tmp/.cache
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
       - name: Build with Gradle Wrapper
         run: ./gradlew build
