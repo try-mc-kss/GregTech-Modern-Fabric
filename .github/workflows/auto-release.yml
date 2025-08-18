@@ -101,8 +101,8 @@ jobs:
             exit 1
           fi
 
-          echo "fabric_version=$FABRIC_VERSION"
-          echo "forge_version=$FORGE_VERSION"
+          echo $FABRIC_JAR
+          echo $FORGE_JAR
           
           FABRIC_VERSION=$(basename "$FABRIC_JAR" | sed -E 's/gtceu-fabric-(.*)\.jar/\1/')
           FORGE_VERSION=$(basename "$FORGE_JAR" | sed -E 's/gtceu-forge-(.*)\.jar/\1/')
