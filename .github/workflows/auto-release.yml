@@ -33,13 +33,12 @@ jobs:
           echo "CLEAN_TAG_NAME=$CLEAN_TAG_NAME" >> $GITHUB_OUTPUT
           echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
           
-          echo "BASE_REF=refs/heads/${{ github.event.inputs.branch || 'main' }}" >> $GITHUB_OUTPUT
+          echo "BASE_REF=refs/heads/main" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v4
         with:
           submodules: true
           fetch-depth: 0
-          ref: ${{ steps.determine_ref.outputs.BASE_REF }}
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -89,9 +88,7 @@ jobs:
           
           # 从构建产物中提取实际版本号
           FABRIC_JAR=$(ls fabric/build/libs/gtceu-fabric-*.jar | grep -v sources | grep -v slim | grep -v shadow | head -1)
-          echo "fabric_jar=$FABRIC_JAR" >> $GITHUB_OUTPUT
           FORGE_JAR=$(ls forge/build/libs/gtceu-forge-*.jar | grep -v sources | grep -v slim | grep -v shadow | head -1)
-          echo "forge_jar=$FORGE_JAR" >> $GITHUB_OUTPUT
           
           if [ ! -f "$FABRIC_JAR" ]; then
             echo "::error::Fabric jar not found: $FABRIC_JAR"
@@ -104,17 +101,34 @@ jobs:
           fi
           
           FABRIC_VERSION=$(basename "$FABRIC_JAR" | sed -E 's/gtceu-fabric-(.*)\.jar/\1/')
-          echo "fabric_version=$FABRIC_VERSION" >> $GITHUB_OUTPUT
           FORGE_VERSION=$(basename "$FORGE_JAR" | sed -E 's/gtceu-forge-(.*)\.jar/\1/')
-          echo "forge_version=$FORGE_VERSION" >> $GITHUB_OUTPUT
           
-          MINECRAFT_VERSION=$(echo "$FABRIC_VERSION" | cut -d'-' -f1)
+          # 提取并验证Minecraft版本
+          MINECRAFT_VERSION=$(echo "$FABRIC_VERSION" | awk -F'-' '{print $1}')
+          if [[ ! $MINECRAFT_VERSION =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
+            echo "::error::Invalid Minecraft version format: $MINECRAFT_VERSION"
+            echo "::error::Full Fabric version: $FABRIC_VERSION"
+            exit 1
+          fi
           echo "minecraft_version=$MINECRAFT_VERSION" >> $GITHUB_OUTPUT
+
+          # 输出文件路径和版本号到工作流变量
+          echo "fabric_jar=$FABRIC_JAR" >> $GITHUB_OUTPUT
+          echo "forge_jar=$FORGE_JAR" >> $GITHUB_OUTPUT
+          echo "fabric_version=$FABRIC_VERSION" >> $GITHUB_OUTPUT
+          echo "forge_version=$FORGE_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Debug Minecraft version
+        run: |
+          echo "Minecraft version: ${{ steps.var.outputs.minecraft_version }}"
+          echo "Full Fabric version: ${{ steps.var.outputs.fabric_version }}"
+          echo "Full Forge version: ${{ steps.var.outputs.forge_version }}"
           
-          echo "fabric_jar=$FABRIC_JAR"
-          echo "forge_jar=$FORGE_JAR"
-          echo "fabric_version=$FABRIC_VERSION"
-          echo "forge_version=$FORGE_VERSION"
+          # 验证版本格式
+          if [[ ! "${{ steps.var.outputs.minecraft_version }}" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
+            echo "::error::Invalid Minecraft version format!"
+            exit 1
+          fi
           
       - name: Create Release
         id: create_release
@@ -177,7 +191,7 @@ jobs:
           modrinth-id: h7rokZqo
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           files: |
-            fabric/build/libs/!(*-@(dev|sources|javadoc|dev-shadow|slim)).jar
+            ${{ steps.var.outputs.fabric_jar }}
           name: GregTechCEu ${{ steps.var.outputs.base_version }}-fabric
           version: ${{ steps.var.outputs.fabric_version }}
           version-type: ${{ steps.var.outputs.prerelease == 'true' && 'beta' || 'release' }}
@@ -185,13 +199,16 @@ jobs:
           loaders: |
             fabric
           game-versions: |
-            ${{ steps.var.outputs.minecraft_version }}  # 使用提取的Minecraft版本
+            ${{ steps.var.outputs.minecraft_version }}  # 确保此变量有效
           game-version-filter: none
           java: |
             17
           retry-attempts: 2
           retry-delay: 10000
           fail-mode: fail
+        # 添加错误处理
+        continue-on-error: ${{ github.event_name != 'workflow_dispatch' }}
+        if: ${{ steps.var.outputs.minecraft_version != '' }}
 
       - name: mc-publish-forge
         uses: Kir-Antipov/mc-publish@v3.3
@@ -199,7 +216,7 @@ jobs:
           modrinth-id: h7rokZqo
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           files: |
-            forge/build/libs/!(*-@(dev|sources|javadoc|dev-shadow|slim)).jar
+            ${{ steps.var.outputs.forge_jar }}
           name: GregTechCEu ${{ steps.var.outputs.base_version }}-forge
           version: ${{ steps.var.outputs.forge_version }}
           version-type: ${{ steps.var.outputs.prerelease == 'true' && 'beta' || 'release' }}
@@ -207,10 +224,13 @@ jobs:
           loaders: |
             forge
           game-versions: |
-            ${{ steps.var.outputs.minecraft_version }}  # 使用提取的Minecraft版本
+            ${{ steps.var.outputs.minecraft_version }}  # 确保此变量有效
           game-version-filter: none
           java: |
             17
           retry-attempts: 2
           retry-delay: 10000
           fail-mode: fail
+        # 添加错误处理
+        continue-on-error: ${{ github.event_name != 'workflow_dispatch' }}
+        if: ${{ steps.var.outputs.minecraft_version != '' }}
