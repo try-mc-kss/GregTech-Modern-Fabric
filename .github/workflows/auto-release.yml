@@ -103,14 +103,21 @@ jobs:
           FABRIC_VERSION=$(basename "$FABRIC_JAR" | sed -E 's/gtceu-fabric-(.*)\.jar/\1/')
           FORGE_VERSION=$(basename "$FORGE_JAR" | sed -E 's/gtceu-forge-(.*)\.jar/\1/')
           
-          # 提取并验证Minecraft版本
+          # 提取并验证Minecraft版本 - 关键修复开始
           MINECRAFT_VERSION=$(echo "$FABRIC_VERSION" | awk -F'-' '{print $1}')
-          if [[ ! $MINECRAFT_VERSION =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
+          
+          # 确保版本格式为 X.X.X
+          if [[ "$MINECRAFT_VERSION" =~ ^[0-9]+\.[0-9]+$ ]]; then
+            # 将 1.20 转换为 1.20.0
+            MINECRAFT_VERSION="${MINECRAFT_VERSION}.0"
+            echo "::warning::Converted Minecraft version to $MINECRAFT_VERSION"
+          elif [[ ! "$MINECRAFT_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "::error::Invalid Minecraft version format: $MINECRAFT_VERSION"
-            echo "::error::Full Fabric version: $FABRIC_VERSION"
             exit 1
           fi
+          
           echo "minecraft_version=$MINECRAFT_VERSION" >> $GITHUB_OUTPUT
+          # 关键修复结束
 
           # 输出文件路径和版本号到工作流变量
           echo "fabric_jar=$FABRIC_JAR" >> $GITHUB_OUTPUT
@@ -125,7 +132,7 @@ jobs:
           echo "Full Forge version: ${{ steps.var.outputs.forge_version }}"
           
           # 验证版本格式
-          if [[ ! "${{ steps.var.outputs.minecraft_version }}" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
+          if [[ ! "${{ steps.var.outputs.minecraft_version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "::error::Invalid Minecraft version format!"
             exit 1
           fi
@@ -240,7 +247,7 @@ jobs:
           asset_content_type: application/java-archive
 
       - name: mc-publish-fabric
-        uses: Kir-Antipov/mc-publish@v3.3
+        uses: Kir-Antipov/mc-publish@v3.3.0  # 升级到最新版本
         with:
           modrinth-id: h7rokZqo
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
@@ -249,23 +256,28 @@ jobs:
           name: GregTechCEu ${{ steps.var.outputs.base_version }}-fabric
           version: ${{ steps.var.outputs.fabric_version }}
           version-type: ${{ steps.var.outputs.prerelease == 'true' && 'beta' || 'release' }}
-          changelog-file: CHANGELOG.*
+          # 使用直接指定的变更日志而不是文件
+          changelog: |
+            Automated release for ${{ steps.var.outputs.raw_tag }}
+            Minecraft version: ${{ steps.var.outputs.minecraft_version }}
           loaders: |
             fabric
+          # 确保游戏版本格式正确 - 关键修复
           game-versions: |
-            ${{ steps.var.outputs.minecraft_version }}  # 确保此变量有效
+            ${{ steps.var.outputs.minecraft_version }}
           game-version-filter: none
           java: |
             17
           retry-attempts: 2
           retry-delay: 10000
           fail-mode: fail
-        # 添加错误处理
+        env:
+          MODRINTH_DEBUG: true  # 启用详细调试
         continue-on-error: ${{ github.event_name != 'workflow_dispatch' }}
         if: ${{ steps.var.outputs.minecraft_version != '' }}
 
       - name: mc-publish-forge
-        uses: Kir-Antipov/mc-publish@v3.3
+        uses: Kir-Antipov/mc-publish@v3.3.0  # 升级到最新版本
         with:
           modrinth-id: h7rokZqo
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
@@ -274,17 +286,22 @@ jobs:
           name: GregTechCEu ${{ steps.var.outputs.base_version }}-forge
           version: ${{ steps.var.outputs.forge_version }}
           version-type: ${{ steps.var.outputs.prerelease == 'true' && 'beta' || 'release' }}
-          changelog-file: CHANGELOG.*
+          # 使用直接指定的变更日志而不是文件
+          changelog: |
+            Automated release for ${{ steps.var.outputs.raw_tag }}
+            Minecraft version: ${{ steps.var.outputs.minecraft_version }}
           loaders: |
             forge
+          # 确保游戏版本格式正确 - 关键修复
           game-versions: |
-            ${{ steps.var.outputs.minecraft_version }}  # 确保此变量有效
+            ${{ steps.var.outputs.minecraft_version }}
           game-version-filter: none
           java: |
             17
           retry-attempts: 2
           retry-delay: 10000
           fail-mode: fail
-        # 添加错误处理
+        env:
+          MODRINTH_DEBUG: true  # 启用详细调试
         continue-on-error: ${{ github.event_name != 'workflow_dispatch' }}
         if: ${{ steps.var.outputs.minecraft_version != '' }}
