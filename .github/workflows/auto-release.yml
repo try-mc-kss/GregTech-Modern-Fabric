@@ -54,7 +54,7 @@ jobs:
         uses: gradle/action/gradle-build@v3.5.0
         with:
           cache-read-only: false
-          arguments: build
+          #arguments: build
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
