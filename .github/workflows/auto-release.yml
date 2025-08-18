@@ -62,6 +62,13 @@ jobs:
       - name: Build with Gradle Wrapper
         run: ./gradlew build
 
+      - name: Verify build outputs
+        run: |
+          echo "Fabric build outputs:"
+          ls -l fabric/build/libs
+          echo "Forge build outputs:"
+          ls -l forge/build/libs
+
       - name: Get Version
         id: var
         run: |
