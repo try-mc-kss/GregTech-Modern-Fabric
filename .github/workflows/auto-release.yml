@@ -100,12 +100,15 @@ jobs:
             echo "::error::Forge jar not found: $FORGE_JAR"
             exit 1
           fi
+
+          echo "fabric_version=$FABRIC_VERSION"
+          echo "forge_version=$FORGE_VERSION"
           
           FABRIC_VERSION=$(basename "$FABRIC_JAR" | sed -E 's/gtceu-fabric-(.*)\.jar/\1/')
           FORGE_VERSION=$(basename "$FORGE_JAR" | sed -E 's/gtceu-forge-(.*)\.jar/\1/')
           
-          echo "fabric_version=$FABRIC_VERSION" >> $GITHUB_OUTPUT
-          echo "forge_version=$FORGE_VERSION" >> $GITHUB_OUTPUT
+          echo "fabric_version=$FABRIC_VERSION"
+          echo "forge_version=$FORGE_VERSION"
           
           # 提取Minecraft版本
           MINECRAFT_VERSION=$(echo "$FABRIC_VERSION" | cut -d'-' -f1)
