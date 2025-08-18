@@ -108,6 +108,11 @@ jobs:
           MINECRAFT_VERSION=$(echo "$FABRIC_VERSION" | cut -d'-' -f1)
           echo "minecraft_version=$MINECRAFT_VERSION" >> $GITHUB_OUTPUT
 
+          echo "fabric_jar=$FABRIC_JAR"
+          echo "forge_jar=$FORGE_JAR"
+          echo "fabric_version=$FABRIC_VERSION"
+          echo "forge_version=$FORGE_VERSION"
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1.1.4  # upgrade to v1.1.4
