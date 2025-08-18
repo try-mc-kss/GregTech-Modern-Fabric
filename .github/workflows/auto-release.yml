@@ -51,7 +51,7 @@ jobs:
         uses: gradle/actions/wrapper-validation@v3.5.0
 
       - name: Setup Gradle
-        uses: gradle/actions/gradle-build@v4.4.2
+        uses: gradle/actions/setup-gradle@v4.4.2
         with:
           cache-read-only: false
           #arguments: build
