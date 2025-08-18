@@ -12,18 +12,18 @@ jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # 仅允许写入发布内容，更安全和精确
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: true
-          fetch-depth: 0  # 添加深度获取以访问标签历史
+          fetch-depth: 0
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'adopt'
+          distribution: 'temurin'  # 使用更稳定的temurin发行版
 
       - name: Validate Gradle wrapper
         uses: gradle/actions/wrapper-validation@v3.5.0
@@ -31,36 +31,11 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3.5.0
         with:
-          cache-read-only: false  # allow caching
-          arguments: build        # process build cache automaticly
+          cache-read-only: false
+          arguments: build
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      
-      #- name: Cache Maven dependencies
-      #  id: maven-cache
-      #  uses: actions/cache@v4
-      #  with:
-      #    path: |
-      #      ./.gradle/loom-cache
-      #      ./common/.gradle/architectury-cache
-      #      ./common/.gradle/loom-cache
-      #      ./common/build/loom-cache
-      #      ./fabric/.gradle/architectury-cache
-      #      ./fabric/.gradle/loom-cache
-      #      ./fabric/build/loom-cache
-      #      ./fabric/build/tmp/.cache
-      #      ./fabric/run/local/kubejs/cache
-      #      ./forge/.gradle/loom-cache
-      #      ./forge/build/loom-cache
-      #      ./forge/build/tmp/.cache
-      #    key: ${{ runner.os }}-maven-${{ hashFiles(
-      #      '**/*.xml',
-      #      '**/*.pom',
-      #      '**/*.jar'
-      #      ) }}
-      #    restore-keys: |
-      #      ${{ runner.os }}-maven-
 
       - name: Build with Gradle Wrapper
         run: ./gradlew build
@@ -72,27 +47,45 @@ jobs:
           TAG_NAME="${GITHUB_REF#refs/tags/}"
           echo "raw_tag=$TAG_NAME" >> $GITHUB_OUTPUT
           
-          # 检测是否为预发布版本（包含"-"）
+          # 检测是否为预发布版本
           if [[ $TAG_NAME == *"-"* ]]; then
             echo "prerelease=true" >> $GITHUB_OUTPUT
           else
             echo "prerelease=false" >> $GITHUB_OUTPUT
           fi
           
-          # 提取主版本号用于Modrinth
+          # 提取主版本号
           BASE_VERSION=$(echo "$TAG_NAME" | sed -E 's/^v?([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
           echo "base_version=$BASE_VERSION" >> $GITHUB_OUTPUT
+          
+          # 从构建产物中提取实际版本号
+          FABRIC_JAR=$(ls fabric/build/libs/gtceu-fabric-*.jar | grep -v sources | grep -v slim | head -1)
+          FORGE_JAR=$(ls forge/build/libs/gtceu-forge-*.jar | grep -v sources | grep -v slim | head -1)
+          
+          FABRIC_VERSION=$(basename "$FABRIC_JAR" | awk -F 'gtceu-fabric-|.jar' '{print $2}')
+          FORGE_VERSION=$(basename "$FORGE_JAR" | awk -F 'gtceu-forge-|.jar' '{print $2}')
+          
+          echo "fabric_version=$FABRIC_VERSION" >> $GITHUB_OUTPUT
+          echo "forge_version=$FORGE_VERSION" >> $GITHUB_OUTPUT
+          
+          # 提取Minecraft版本
+          MINECRAFT_VERSION=$(echo "$FABRIC_VERSION" | cut -d'-' -f1)
+          echo "minecraft_version=$MINECRAFT_VERSION" >> $GITHUB_OUTPUT
 
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: actions/create-release@v1.1.4  # 升级到v1.1.4版本
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.var.outputs.raw_tag }}  # 使用纯净标签名
+          tag_name: ${{ steps.var.outputs.raw_tag }}
           release_name: GregTechCEu ${{ steps.var.outputs.base_version }}
           draft: false
-          prerelease: ${{ steps.var.outputs.prerelease }}  # 动态检测预发布状态
+          prerelease: ${{ steps.var.outputs.prerelease }}
+          body: |
+            Automated release for ${{ steps.var.outputs.raw_tag }}
+            Minecraft version: ${{ steps.var.outputs.minecraft_version }}
+            Build SHA: ${{ github.sha }}
 
       - name: Upload Fabric Release Asset
         uses: actions/upload-release-asset@v1
@@ -137,29 +130,18 @@ jobs:
       - name: mc-publish-fabric
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          # Only include this section if you wish to publish
-          # your assets on Modrinth.
           modrinth-id: h7rokZqo
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-
-          # Only include this section if you wish to publish
-          # your assets on CurseForge.
-          # curseforge-id: 890405
-          # curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-
           files: |
             fabric/build/libs/!(*-@(dev|sources|javadoc|dev-shadow|slim)).jar
-            fabric/build/libs/*-@(dev|sources|javadoc|dev-shadow|slim).jar
-
-          name: GregTechCEu ${{ steps.var.outputs.fabric_version }}-fabric
-          version: mc${{ steps.var.outputs.fabric_version }}-fabric
-          version-type: ${{ contains(github.ref, '-') && 'beta' || 'release' }}
+          name: GregTechCEu ${{ steps.var.outputs.base_version }}-fabric
+          version: ${{ steps.var.outputs.fabric_version }}  # 使用实际构建版本
+          version-type: ${{ steps.var.outputs.prerelease == 'true' && 'beta' || 'release' }}
           changelog-file: CHANGELOG.*
-
           loaders: |
             fabric
           game-versions: |
-            ${{ github.ref_name }}
+            ${{ steps.var.outputs.minecraft_version }}  # 使用提取的Minecraft版本
           game-version-filter: none
           java: |
             17
@@ -170,29 +152,18 @@ jobs:
       - name: mc-publish-forge
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          # Only include this section if you wish to publish
-          # your assets on Modrinth.
           modrinth-id: h7rokZqo
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-
-          # Only include this section if you wish to publish
-          # your assets on CurseForge.
-          # curseforge-id: 890405
-          # curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-
           files: |
             forge/build/libs/!(*-@(dev|sources|javadoc|dev-shadow|slim)).jar
-            forge/build/libs/*-@(dev|sources|javadoc|dev-shadow|slim).jar
-
-          name: GregTechCEu ${{ steps.var.outputs.forge_version }}-forge
-          version: mc${{ steps.var.outputs.forge_version }}-forge
-          version-type: ${{ contains(github.ref, '-') && 'beta' || 'release' }}
+          name: GregTechCEu ${{ steps.var.outputs.base_version }}-forge
+          version: ${{ steps.var.outputs.forge_version }}  # 使用实际构建版本
+          version-type: ${{ steps.var.outputs.prerelease == 'true' && 'beta' || 'release' }}
           changelog-file: CHANGELOG.*
-
           loaders: |
             forge
           game-versions: |
-            ${{ github.ref_name }}
+            ${{ steps.var.outputs.minecraft_version }}  # 使用提取的Minecraft版本
           game-version-filter: none
           java: |
             17
