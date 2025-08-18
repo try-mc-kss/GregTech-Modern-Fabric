@@ -11,6 +11,8 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 仅允许写入发布内容，更安全和精确
     steps:
       - uses: actions/checkout@v4
         with:
