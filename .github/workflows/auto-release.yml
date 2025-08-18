@@ -45,7 +45,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'temurin'  # 使用更稳定的temurin发行版
+          distribution: 'temurin'
 
       - name: Validate Gradle wrapper
         uses: gradle/actions/wrapper-validation@v3.5.0
@@ -88,8 +88,8 @@ jobs:
           echo "base_version=$BASE_VERSION" >> $GITHUB_OUTPUT
           
           # 从构建产物中提取实际版本号
-          FABRIC_JAR=$(ls fabric/build/libs/gtceu-fabric-*.jar | grep -v sources | grep -v slim | head -1)
-          FORGE_JAR=$(ls forge/build/libs/gtceu-forge-*.jar | grep -v sources | grep -v slim | head -1)
+          FABRIC_JAR=$(ls fabric/build/libs/gtceu-fabric-*.jar | grep -v sources | grep -v slim | grep -v shadow | head -1)
+          FORGE_JAR=$(ls forge/build/libs/gtceu-forge-*.jar | grep -v sources | grep -v slim | grew -v shadow | head -1)
           
           if [ ! -f "$FABRIC_JAR" ]; then
             echo "::error::Fabric jar not found: $FABRIC_JAR"
@@ -100,15 +100,9 @@ jobs:
             echo "::error::Forge jar not found: $FORGE_JAR"
             exit 1
           fi
-
-          echo $FABRIC_JAR
-          echo $FORGE_JAR
           
           FABRIC_VERSION=$(basename "$FABRIC_JAR" | sed -E 's/gtceu-fabric-(.*)\.jar/\1/')
           FORGE_VERSION=$(basename "$FORGE_JAR" | sed -E 's/gtceu-forge-(.*)\.jar/\1/')
-          
-          echo "fabric_version=$FABRIC_VERSION"
-          echo "forge_version=$FORGE_VERSION"
           
           # 提取Minecraft版本
           MINECRAFT_VERSION=$(echo "$FABRIC_VERSION" | cut -d'-' -f1)
@@ -116,7 +110,7 @@ jobs:
 
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1.1.4  # 升级到v1.1.4版本
+        uses: actions/create-release@v1.1.4  # upgrade to v1.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -177,7 +171,7 @@ jobs:
           files: |
             fabric/build/libs/!(*-@(dev|sources|javadoc|dev-shadow|slim)).jar
           name: GregTechCEu ${{ steps.var.outputs.base_version }}-fabric
-          version: ${{ steps.var.outputs.fabric_version }}  # 使用实际构建版本
+          version: ${{ steps.var.outputs.fabric_version }}
           version-type: ${{ steps.var.outputs.prerelease == 'true' && 'beta' || 'release' }}
           changelog-file: CHANGELOG.*
           loaders: |
@@ -199,7 +193,7 @@ jobs:
           files: |
             forge/build/libs/!(*-@(dev|sources|javadoc|dev-shadow|slim)).jar
           name: GregTechCEu ${{ steps.var.outputs.base_version }}-forge
-          version: ${{ steps.var.outputs.forge_version }}  # 使用实际构建版本
+          version: ${{ steps.var.outputs.forge_version }}
           version-type: ${{ steps.var.outputs.prerelease == 'true' && 'beta' || 'release' }}
           changelog-file: CHANGELOG.*
           loaders: |
