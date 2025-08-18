@@ -89,7 +89,9 @@ jobs:
           
           # 从构建产物中提取实际版本号
           FABRIC_JAR=$(ls fabric/build/libs/gtceu-fabric-*.jar | grep -v sources | grep -v slim | grep -v shadow | head -1)
+          echo "fabric_jar=$FABRIC_JAR" >> $GITHUB_OUTPUT
           FORGE_JAR=$(ls forge/build/libs/gtceu-forge-*.jar | grep -v sources | grep -v slim | grep -v shadow | head -1)
+          echo "forge_jar=$FORGE_JAR" >> $GITHUB_OUTPUT
           
           if [ ! -f "$FABRIC_JAR" ]; then
             echo "::error::Fabric jar not found: $FABRIC_JAR"
@@ -102,17 +104,18 @@ jobs:
           fi
           
           FABRIC_VERSION=$(basename "$FABRIC_JAR" | sed -E 's/gtceu-fabric-(.*)\.jar/\1/')
+          echo "fabric_version=$FABRIC_VERSION" >> $GITHUB_OUTPUT
           FORGE_VERSION=$(basename "$FORGE_JAR" | sed -E 's/gtceu-forge-(.*)\.jar/\1/')
+          echo "forge_version=$FORGE_VERSION" >> $GITHUB_OUTPUT
           
-          # 提取Minecraft版本
           MINECRAFT_VERSION=$(echo "$FABRIC_VERSION" | cut -d'-' -f1)
           echo "minecraft_version=$MINECRAFT_VERSION" >> $GITHUB_OUTPUT
-
+          
           echo "fabric_jar=$FABRIC_JAR"
           echo "forge_jar=$FORGE_JAR"
           echo "fabric_version=$FABRIC_VERSION"
           echo "forge_version=$FORGE_VERSION"
-
+          
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1.1.4  # upgrade to v1.1.4
