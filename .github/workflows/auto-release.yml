@@ -89,7 +89,7 @@ jobs:
           
           # 从构建产物中提取实际版本号
           FABRIC_JAR=$(ls fabric/build/libs/gtceu-fabric-*.jar | grep -v sources | grep -v slim | grep -v shadow | head -1)
-          FORGE_JAR=$(ls forge/build/libs/gtceu-forge-*.jar | grep -v sources | grep -v slim | grew -v shadow | head -1)
+          FORGE_JAR=$(ls forge/build/libs/gtceu-forge-*.jar | grep -v sources | grep -v slim | grep -v shadow | head -1)
           
           if [ ! -f "$FABRIC_JAR" ]; then
             echo "::error::Fabric jar not found: $FABRIC_JAR"
