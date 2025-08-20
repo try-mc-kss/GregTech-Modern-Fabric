@@ -102,7 +102,7 @@ dependencies {
     modCompileOnly fabric.configuration
 
     // Shimmer
-    modCompileOnly fabric.shimmer.common
+    //modCompileOnly fabric.shimmer.common
 }
 
 publishing {
