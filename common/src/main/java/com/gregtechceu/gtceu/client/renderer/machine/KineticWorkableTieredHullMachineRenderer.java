@@ -18,9 +18,10 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * @author KilaBash
- * @date 2023/4/1
+ * @author Mushroom
+ * @date 2025/8/22
  * @implNote ElectricGearBoxRenderer
+ * @implNote MixerRenderer
  */
 public class KineticWorkableTieredHullMachineRenderer extends SplitShaftTieredHullMachineRenderer implements ISplitShaftRenderer {
     protected final WorkableOverlayModel overlayModel;

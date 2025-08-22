@@ -70,7 +70,7 @@ public class BedrockOreMinerLogic extends RecipeLogic {
 
     @Nullable
     private GTRecipe getOreMinerRecipe() {
-        if (getMachine().getLevel() instanceof ServerLevel serverLevel && veinMaterials != null) {
+        if (getMachine().getLevel() instanceof ServerLevel serverLevel && veinMaterials != null && !veinMaterials.isEmpty()) {
             var data = BedrockOreVeinSavedData.getOrCreate(serverLevel);
             Material material = veinMaterials.get(GTUtil.getRandomItem(veinMaterials, veinMaterials.size())).getValue();
             ItemStack stack = ChemicalHelper.get(TagPrefix.get(ConfigHolder.INSTANCE.machines.bedrockOreDropTagPrefix), material, getOreToProduce(data.getOreVeinWorldEntry(getChunkX(), getChunkZ())));
