@@ -64,5 +64,11 @@ public class GTEMIPlugin implements EmiPlugin {
         registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, EmiStack.of(GTMachines.STEAM_FURNACE.right().asStack()));
         registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, EmiStack.of(GTMachines.STEAM_OVEN.asStack()));
         registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, EmiStack.of(GTMachines.MULTI_SMELTER.asStack()));
+        
+        // Tag translations are now handled via lang files, not through the API
+        // See: https://github.com/emilyploszaj/emi/wiki/Tag-Translation
+        // Tag translation keys should be added to the lang files using the format:
+        // "tag.item.namespace.path" for item tags
+        // For example: "tag.item.gtceu.circuits.ulv" for the ULV circuit tag
     }
 }

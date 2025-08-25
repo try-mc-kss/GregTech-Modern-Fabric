@@ -1,6 +1,4 @@
 TODO:
-1.repair multimacine overlay renderer issue.
-2.repair emi plugin issue.
-3.add ingots can be press into plates by create's roller press.
-4.add solar boiler light level support
-5.add fluid pourable
+1.add ingots can be press into plates by create's roller press.
+2.add solar boiler light level support
+3.add fluid pourable
