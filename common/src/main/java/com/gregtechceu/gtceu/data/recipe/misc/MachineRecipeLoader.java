@@ -169,7 +169,7 @@ public class MachineRecipeLoader {
                 .outputItems(plate, NetherQuartz)
                 .duration(400).EUt(2).save(provider);
 
-        COMPRESSOR_RECIPES.recipeBuilder("certus_quartz_plate")
+        COMPRESSOR_RECIPES.recipeBuilder("certus_quartz_dust_to_plate")
                 .inputItems(dust, CertusQuartz)
                 .outputItems(plate, CertusQuartz)
                 .duration(400).EUt(2).save(provider);

@@ -939,27 +939,47 @@ public class TagPrefix {
 
     @SuppressWarnings("unchecked")
     public TagKey<Item>[] getItemParentTags() {
-        return (Platform.isForge() ? forgeTags : fabricTags).stream().filter(TagType::isParentTag).map(type -> type.getTag(this, null)).toArray(TagKey[]::new);
+        return (Platform.isForge() ? forgeTags : fabricTags).stream()
+                .filter(TagType::isParentTag)
+                .map(type -> type.getTag(this, null))
+                .filter(Objects::nonNull)
+                .toArray(TagKey[]::new);
     }
 
     @SuppressWarnings("unchecked")
     public TagKey<Item>[] getItemTags(@Nonnull Material mat) {
-        return (Platform.isForge() ? forgeTags : fabricTags).stream().filter(type -> !type.isParentTag()).map(type -> type.getTag(this, mat)).toArray(TagKey[]::new);
+        return (Platform.isForge() ? forgeTags : fabricTags).stream()
+                .filter(type -> !type.isParentTag())
+                .map(type -> type.getTag(this, mat))
+                .filter(Objects::nonNull)
+                .toArray(TagKey[]::new);
     }
 
     @SuppressWarnings("unchecked")
     public TagKey<Item>[] getAllItemTags(@Nonnull Material mat) {
-        return (Platform.isForge() ? forgeTags : fabricTags).stream().map(type -> type.getTag(this, mat)).toArray(TagKey[]::new);
+        return (Platform.isForge() ? forgeTags : fabricTags).stream()
+                .map(type -> type.getTag(this, mat))
+                .filter(Objects::nonNull)
+                .toArray(TagKey[]::new);
     }
 
     @SuppressWarnings("unchecked")
     public TagKey<Block>[] getBlockTags(@Nonnull Material mat) {
-        return (Platform.isForge() ? forgeTags : fabricTags).stream().filter(type -> !type.isParentTag()).map(type -> type.getTag(this, mat)).map(itemTagKey -> TagKey.create(Registries.BLOCK, itemTagKey.location())).toArray(TagKey[]::new);
+        return (Platform.isForge() ? forgeTags : fabricTags).stream()
+                .filter(type -> !type.isParentTag())
+                .map(type -> type.getTag(this, mat))
+                .filter(Objects::nonNull)
+                .map(itemTagKey -> TagKey.create(Registries.BLOCK, itemTagKey.location()))
+                .toArray(TagKey[]::new);
     }
 
     @SuppressWarnings("unchecked")
     public TagKey<Block>[] getAllBlockTags(@Nonnull Material mat) {
-        return (Platform.isForge() ? forgeTags : fabricTags).stream().map(type -> type.getTag(this, mat)).map(itemTagKey -> TagKey.create(Registries.BLOCK, itemTagKey.location())).toArray(TagKey[]::new);
+        return (Platform.isForge() ? forgeTags : fabricTags).stream()
+                .map(type -> type.getTag(this, mat))
+                .filter(Objects::nonNull)
+                .map(itemTagKey -> TagKey.create(Registries.BLOCK, itemTagKey.location()))
+                .toArray(TagKey[]::new);
     }
 
     public boolean hasItemTable() {

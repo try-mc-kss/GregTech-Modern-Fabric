@@ -92,7 +92,7 @@ public class SmeltingRecipeBuilder {
             json.addProperty("group", group);
         }
 
-        if (!input.isEmpty()) {
+        if (input != null && !input.isEmpty()) {
             json.add("ingredient", input.toJson());
         }
 

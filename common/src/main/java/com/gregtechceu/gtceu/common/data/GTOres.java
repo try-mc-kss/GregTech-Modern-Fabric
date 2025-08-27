@@ -223,7 +223,7 @@ public class GTOres {
             )
     );
 
-    public static final GTOreDefinition CERTUS_QUARTZ_VEIN = create("certus_quartz", vein -> vein
+    public static final GTOreDefinition CERTUS_QUARTZ_VEIN = create("certus_quartz_vein", vein -> vein
             .clusterSize(25).density(0.25f).weight(40)
             .layer(WorldGenLayers.NETHERRACK)
             .heightRangeUniform(80, 120)

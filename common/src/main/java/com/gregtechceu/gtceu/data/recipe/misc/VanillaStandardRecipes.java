@@ -682,7 +682,7 @@ public class VanillaStandardRecipes {
                 .outputItems(new ItemStack(Items.COMPARATOR))
                 .duration(100).EUt(1).save(provider);
 
-        ASSEMBLER_RECIPES.recipeBuilder("comparator_certus_quartz")
+        ASSEMBLER_RECIPES.recipeBuilder("comparator_certus_quartz_assembler")
                 .inputItems(new ItemStack(Blocks.REDSTONE_TORCH, 3))
                 .inputItems(gem, CertusQuartz)
                 .inputFluids(Concrete.getFluid(L))

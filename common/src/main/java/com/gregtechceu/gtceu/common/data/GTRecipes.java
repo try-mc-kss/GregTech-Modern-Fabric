@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.data.recipe.configurable.RecipeRemoval;
 import com.gregtechceu.gtceu.data.recipe.generated.*;
 import com.gregtechceu.gtceu.data.recipe.misc.*;
 import com.gregtechceu.gtceu.data.recipe.serialized.chemistry.ChemistryRecipes;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 
@@ -68,6 +69,7 @@ public class GTRecipes {
         // Kinetic Machines
         if (GTCEu.isCreateLoaded()) {
             CreateRecipeLoader.init(consumer);
+            CreateRecipeAddon.init(consumer);
         }
 
         AddonFinder.getAddons().forEach(addon -> addon.addRecipes(consumer));

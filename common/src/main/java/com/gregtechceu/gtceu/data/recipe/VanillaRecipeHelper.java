@@ -8,10 +8,8 @@ import com.gregtechceu.gtceu.api.data.chemical.material.stack.ItemMaterialInfo;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.api.item.tool.ToolHelper;
 import com.gregtechceu.gtceu.data.recipe.builder.*;
-import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.ItemProviderEntry;
 import it.unimi.dsi.fastutil.chars.*;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
@@ -50,7 +48,9 @@ public class VanillaRecipeHelper {
     }
 
     public static void addSmeltingRecipe(Consumer<FinishedRecipe> provider, @Nonnull ResourceLocation regName, TagKey<Item> input, ItemStack output, float experience) {
-        new SmeltingRecipeBuilder(regName).input(input).output(output).cookingTime(200).experience(experience).save(provider);
+        if (input != null) {
+            new SmeltingRecipeBuilder(regName).input(input).output(output).cookingTime(200).experience(experience).save(provider);
+        }
     }
 
     public static void addBlastingRecipe(Consumer<FinishedRecipe> provider, @Nonnull String regName, TagKey<Item> input, ItemStack output, float experience) {
@@ -58,7 +58,9 @@ public class VanillaRecipeHelper {
     }
 
     public static void addBlastingRecipe(Consumer<FinishedRecipe> provider, @Nonnull ResourceLocation regName, TagKey<Item> input, ItemStack output, float experience) {
-        new BlastingRecipeBuilder(regName).input(input).output(output).cookingTime(100).experience(experience).save(provider);
+        if (input != null) {
+            new BlastingRecipeBuilder(regName).input(input).output(output).cookingTime(100).experience(experience).save(provider);
+        }
     }
 
     public static void addSmokingRecipe(Consumer<FinishedRecipe> provider, @Nonnull String regName, TagKey<Item> input, ItemStack output, float experience) {
@@ -66,7 +68,9 @@ public class VanillaRecipeHelper {
     }
 
     public static void addSmokingRecipe(Consumer<FinishedRecipe> provider, @Nonnull ResourceLocation regName, TagKey<Item> input, ItemStack output, float experience) {
-        new SmokingRecipeBuilder(regName).input(input).output(output).cookingTime(100).experience(experience).save(provider);
+        if (input != null) {
+            new SmokingRecipeBuilder(regName).input(input).output(output).cookingTime(100).experience(experience).save(provider);
+        }
     }
 
     public static void addSmeltingRecipe(Consumer<FinishedRecipe> provider, @Nonnull String regName, ItemStack input, ItemStack output) {

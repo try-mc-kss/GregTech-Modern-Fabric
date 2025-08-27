@@ -65,6 +65,11 @@ public class TagType {
     }
 
     public TagKey<Item> getTag(TagPrefix prefix, Material material) {
+        // Check if the item should actually be generated for this material
+        if (material != null && !prefix.doGenerateItem(material)) {
+            // Return null or a special "empty" tag to indicate this shouldn't be registered
+            return null;
+        }
         return formatter.apply(prefix, material);
     }
 }
