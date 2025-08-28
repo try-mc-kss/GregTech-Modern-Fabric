@@ -67,6 +67,7 @@ public class CommonProxy {
         WorldGenLayers.registerAll();
         GTFeatures.init();
         GTFeatures.register();
+        // TODO: ignore useless tags
         // 基于材料属性自动检测并忽略无用的标签
         // 遍历所有材料
         /*for (Material material : GTRegistries.MATERIALS) {

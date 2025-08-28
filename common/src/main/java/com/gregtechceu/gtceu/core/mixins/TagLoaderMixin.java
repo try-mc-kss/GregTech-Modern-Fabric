@@ -87,11 +87,8 @@ public class TagLoaderMixin<T> implements IGTTagLoader<T> {
             });
             GTRegistries.MACHINES.forEach(machine -> {
                 ResourceLocation id = machine.getId();
-                // 添加空值检查避免空指针异常
-                if (!GTToolType.WRENCH.harvestTags.isEmpty()) {
-                    tagMap.computeIfAbsent(GTToolType.WRENCH.harvestTags.get(0).location(), path -> new ArrayList<>())
-                            .add(new TagLoader.EntryWithSource(TagEntry.element(id), GTValues.CUSTOM_TAG_SOURCE));
-                }
+                tagMap.computeIfAbsent(GTToolType.WRENCH.harvestTags.get(0).location(), path -> new ArrayList<>())
+                        .add(new TagLoader.EntryWithSource(TagEntry.element(id), GTValues.CUSTOM_TAG_SOURCE));
                 if (!ConfigHolder.INSTANCE.machines.requireGTToolsForBlocks) {
                     tagMap.computeIfAbsent(BlockTags.MINEABLE_WITH_PICKAXE.location(), path -> new ArrayList<>())
                             .add(new TagLoader.EntryWithSource(TagEntry.element(id), GTValues.CUSTOM_TAG_SOURCE));
@@ -99,15 +96,9 @@ public class TagLoaderMixin<T> implements IGTTagLoader<T> {
             });
 
             GTBlocks.ALL_FUSION_CASINGS.forEach((casingType, block) -> {
-                // 添加空值检查避免空指针异常
-                if (block != null && block.get() != null) {
-                    ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(block.get());
-                    int harvestLevel = casingType.getHarvestLevel();
-                    if (harvestLevel >= 0 && harvestLevel < CustomTags.TOOL_TIERS.length) {
-                        tagMap.computeIfAbsent(CustomTags.TOOL_TIERS[harvestLevel].location(), path -> new ArrayList<>())
-                                .add(new TagLoader.EntryWithSource(TagEntry.element(blockId), GTValues.CUSTOM_TAG_SOURCE));
-                    }
-                }
+                ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(block.get());
+                tagMap.computeIfAbsent(CustomTags.TOOL_TIERS[casingType.getHarvestLevel()].location(), path -> new ArrayList<>())
+                        .add(new TagLoader.EntryWithSource(TagEntry.element(blockId), GTValues.CUSTOM_TAG_SOURCE));
             });
         } else if (gtceu$getRegistry() == BuiltInRegistries.FLUID) {
             for (Material material : GTRegistries.MATERIALS) {

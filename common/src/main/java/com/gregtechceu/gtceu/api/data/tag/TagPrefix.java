@@ -560,156 +560,156 @@ public class TagPrefix {
 
     // consisting out of 4 Plates, 1 Ring and 1 Screw.
     public static final TagPrefix rotor = new TagPrefix("rotor")
-        .defaultTagPath(FORGE, "rotors/%s")
-        .defaultTagPath(FABRIC, "%s_rotors")
-        .unformattedTagPath(FORGE, "rotors")
-        .unformattedTagPath(FABRIC, "rotors")
-        .materialAmount(GTValues.M * 4)
-        .maxStackSize(16)
-        .materialIconType(MaterialIconType.rotor)
-        .unificationEnabled(true)
-        .generateItem(true)
-        .generationCondition(mat -> mat.hasFlag(MaterialFlags.GENERATE_ROTOR));
+            .defaultTagPath(FORGE, "rotors/%s")
+            .defaultTagPath(FABRIC, "%s_rotors")
+            .unformattedTagPath(FORGE, "rotors")
+            .unformattedTagPath(FABRIC, "rotors")
+            .materialAmount(GTValues.M * 4)
+            .maxStackSize(16)
+            .materialIconType(MaterialIconType.rotor)
+            .unificationEnabled(true)
+            .generateItem(true)
+            .generationCondition(mat -> mat.hasFlag(MaterialFlags.GENERATE_ROTOR));
 
     // Consisting of 1 Plate.
     public static final TagPrefix gearSmall = new TagPrefix("smallGear")
-        .defaultTagPath(FORGE, "small_gears/%s")
-        .defaultTagPath(FABRIC, "%s_small_gears")
-        .unformattedTagPath(FORGE, "small_gears")
-        .unformattedTagPath(FABRIC, "small_gears")
-        .langValue("Small %s Gear")
-        .materialAmount(GTValues.M)
-        .materialIconType(MaterialIconType.gearSmall)
-        .unificationEnabled(true)
-        .generateItem(true)
-        .generationCondition(mat -> mat.hasFlag(MaterialFlags.GENERATE_SMALL_GEAR));
+            .defaultTagPath(FORGE, "small_gears/%s")
+            .defaultTagPath(FABRIC, "%s_small_gears")
+            .unformattedTagPath(FORGE, "small_gears")
+            .unformattedTagPath(FABRIC, "small_gears")
+            .langValue("Small %s Gear")
+            .materialAmount(GTValues.M)
+            .materialIconType(MaterialIconType.gearSmall)
+            .unificationEnabled(true)
+            .generateItem(true)
+            .generationCondition(mat -> mat.hasFlag(MaterialFlags.GENERATE_SMALL_GEAR));
 
     // Consisting of 4 Plates.
     public static final TagPrefix gear = new TagPrefix("gear")
-        .defaultTagPath(FORGE, "gears/%s")
-        .defaultTagPath(FABRIC, "%s_gears")
-        .unformattedTagPath(FORGE, "gears")
-        .unformattedTagPath(FABRIC, "gears")
-        .materialAmount(GTValues.M * 4)
-        .maxStackSize(16)
-        .materialIconType(MaterialIconType.gear)
-        .unificationEnabled(true)
-        .generateItem(true)
-        .generationCondition(mat -> mat.hasFlag(MaterialFlags.GENERATE_GEAR));
+            .defaultTagPath(FORGE, "gears/%s")
+            .defaultTagPath(FABRIC, "%s_gears")
+            .unformattedTagPath(FORGE, "gears")
+            .unformattedTagPath(FABRIC, "gears")
+            .materialAmount(GTValues.M * 4)
+            .maxStackSize(16)
+            .materialIconType(MaterialIconType.gear)
+            .unificationEnabled(true)
+            .generateItem(true)
+            .generationCondition(mat -> mat.hasFlag(MaterialFlags.GENERATE_GEAR));
 
     // 3/4 of a Plate or Gem used to shape a Lens. Normally only used on Transparent Materials.
     public static final TagPrefix lens = new TagPrefix("lens")
-        .defaultTagPath(FORGE, "lenses/%s")
-        .defaultTagPath(FABRIC, "%s_lenses")
-        .unformattedTagPath(FORGE, "lenses")
-        .unformattedTagPath(FABRIC, "lenses")
-        .materialAmount((GTValues.M * 3) / 4)
-        .materialIconType(MaterialIconType.lens)
-        .unificationEnabled(true)
-        .generateItem(true)
-        .generationCondition(mat -> mat.hasFlag(MaterialFlags.GENERATE_LENS));
+            .defaultTagPath(FORGE, "lenses/%s")
+            .defaultTagPath(FABRIC, "%s_lenses")
+            .unformattedTagPath(FORGE, "lenses")
+            .unformattedTagPath(FABRIC, "lenses")
+            .materialAmount((GTValues.M * 3) / 4)
+            .materialIconType(MaterialIconType.lens)
+            .unificationEnabled(true)
+            .generateItem(true)
+            .generationCondition(mat -> mat.hasFlag(MaterialFlags.GENERATE_LENS));
 
     public static final TagPrefix dye = new TagPrefix("dye")
-        .defaultTagPath(FORGE, "dyes/%s")
-        .defaultTagPath(FABRIC, "%s_dyes")
-        .unformattedTagPath(FORGE, "dyes")
-        .unformattedTagPath(FABRIC, "dyes")
-        .materialAmount(-1);
+            .defaultTagPath(FORGE, "dyes/%s")
+            .defaultTagPath(FABRIC, "%s_dyes")
+            .unformattedTagPath(FORGE, "dyes")
+            .unformattedTagPath(FABRIC, "dyes")
+            .materialAmount(-1);
 
     // made of 4 Ingots.
     public static final TagPrefix toolHeadBuzzSaw = new TagPrefix("buzzSawBlade")
-        .itemTable(() -> GTItems.MATERIAL_ITEMS)
-        .langValue("%s Buzzsaw Blade")
-        .materialAmount(GTValues.M * 4)
-        .maxStackSize(16)
-        .materialIconType(MaterialIconType.toolHeadBuzzSaw)
-        .unificationEnabled(true)
-        .generateItem(true)
-        .generationCondition(hasNoCraftingToolProperty.and(mat -> mat.hasFlag(MaterialFlags.GENERATE_PLATE)));
+            .itemTable(() -> GTItems.MATERIAL_ITEMS)
+            .langValue("%s Buzzsaw Blade")
+            .materialAmount(GTValues.M * 4)
+            .maxStackSize(16)
+            .materialIconType(MaterialIconType.toolHeadBuzzSaw)
+            .unificationEnabled(true)
+            .generateItem(true)
+            .generationCondition(hasNoCraftingToolProperty.and(mat -> mat.hasFlag(MaterialFlags.GENERATE_PLATE)));
 
     // made of 1 Ingots.
     public static final TagPrefix toolHeadScrewdriver = new TagPrefix("screwdriverTip")
-        .itemTable(() -> GTItems.MATERIAL_ITEMS)
-        .langValue("%s Screwdriver Tip")
-        .materialAmount(GTValues.M)
-        .maxStackSize(16)
-        .materialIconType(MaterialIconType.toolHeadScrewdriver)
-        .unificationEnabled(true)
-        .generateItem(true)
-        .generationCondition(hasNoCraftingToolProperty.and(mat -> mat.hasFlag(MaterialFlags.GENERATE_LONG_ROD)));
+            .itemTable(() -> GTItems.MATERIAL_ITEMS)
+            .langValue("%s Screwdriver Tip")
+            .materialAmount(GTValues.M)
+            .maxStackSize(16)
+            .materialIconType(MaterialIconType.toolHeadScrewdriver)
+            .unificationEnabled(true)
+            .generateItem(true)
+            .generationCondition(hasNoCraftingToolProperty.and(mat -> mat.hasFlag(MaterialFlags.GENERATE_LONG_ROD)));
 
     // made of 4 Ingots.
     public static final TagPrefix toolHeadDrill = new TagPrefix("drillHead")
-        .itemTable(() -> GTItems.MATERIAL_ITEMS)
-        .langValue("%s Drill Head")
-        .materialAmount(GTValues.M * 4)
-        .maxStackSize(16)
-        .materialIconType(MaterialIconType.toolHeadDrill)
-        .unificationEnabled(true)
-        .generateItem(true)
-        .generationCondition(hasToolProperty.and(mat -> mat.hasFlag(MaterialFlags.GENERATE_PLATE)));
+            .itemTable(() -> GTItems.MATERIAL_ITEMS)
+            .langValue("%s Drill Head")
+            .materialAmount(GTValues.M * 4)
+            .maxStackSize(16)
+            .materialIconType(MaterialIconType.toolHeadDrill)
+            .unificationEnabled(true)
+            .generateItem(true)
+            .generationCondition(hasToolProperty.and(mat -> mat.hasFlag(MaterialFlags.GENERATE_PLATE)));
 
     // made of 2 Ingots.
     public static final TagPrefix toolHeadChainsaw = new TagPrefix("chainsawHead")
-        .itemTable(() -> GTItems.MATERIAL_ITEMS)
-        .langValue("%s Chainsaw Head")
-        .materialAmount(GTValues.M * 2)
-        .maxStackSize(16)
-        .materialIconType(MaterialIconType.toolHeadChainsaw)
-        .unificationEnabled(true)
-        .generateItem(true)
-        .generationCondition(hasNoCraftingToolProperty.and(mat -> mat.hasFlag(MaterialFlags.GENERATE_PLATE)));
+            .itemTable(() -> GTItems.MATERIAL_ITEMS)
+            .langValue("%s Chainsaw Head")
+            .materialAmount(GTValues.M * 2)
+            .maxStackSize(16)
+            .materialIconType(MaterialIconType.toolHeadChainsaw)
+            .unificationEnabled(true)
+            .generateItem(true)
+            .generationCondition(hasNoCraftingToolProperty.and(mat -> mat.hasFlag(MaterialFlags.GENERATE_PLATE)));
 
     // made of 4 Ingots.
     public static final TagPrefix toolHeadWrench = new TagPrefix("wrenchTip")
-        .itemTable(() -> GTItems.MATERIAL_ITEMS)
-        .langValue("%s Wrench Tip")
-        .materialAmount(GTValues.M * 4)
-        .maxStackSize(16)
-        .materialIconType(MaterialIconType.toolHeadWrench)
-        .unificationEnabled(true)
-        .generateItem(true)
-        .generationCondition(hasNoCraftingToolProperty.and(mat -> mat.hasFlag(MaterialFlags.GENERATE_PLATE)));
+            .itemTable(() -> GTItems.MATERIAL_ITEMS)
+            .langValue("%s Wrench Tip")
+            .materialAmount(GTValues.M * 4)
+            .maxStackSize(16)
+            .materialIconType(MaterialIconType.toolHeadWrench)
+            .unificationEnabled(true)
+            .generateItem(true)
+            .generationCondition(hasNoCraftingToolProperty.and(mat -> mat.hasFlag(MaterialFlags.GENERATE_PLATE)));
 
     // made of 5 Ingots.
     public static final TagPrefix turbineBlade = new TagPrefix("turbineBlade")
-        .itemTable(() -> GTItems.MATERIAL_ITEMS)
-        .langValue("%s Turbine Blade")
-        .materialAmount(GTValues.M * 10)
-        .materialIconType(MaterialIconType.turbineBlade)
-        .unificationEnabled(true)
-        .generateItem(true)
-        .generationCondition(hasRotorProperty.and(m -> m.hasFlags(MaterialFlags.GENERATE_BOLT_SCREW, MaterialFlags.GENERATE_PLATE) && !m.hasProperty(PropertyKey.GEM)));
+            .itemTable(() -> GTItems.MATERIAL_ITEMS)
+            .langValue("%s Turbine Blade")
+            .materialAmount(GTValues.M * 10)
+            .materialIconType(MaterialIconType.turbineBlade)
+            .unificationEnabled(true)
+            .generateItem(true)
+            .generationCondition(hasRotorProperty.and(m -> m.hasFlags(MaterialFlags.GENERATE_BOLT_SCREW, MaterialFlags.GENERATE_PLATE) && !m.hasProperty(PropertyKey.GEM)));
 
     // Storage Block consisting out of 9 Ingots/Gems/Dusts.
     public static final TagPrefix block = new TagPrefix("block")
-        .defaultTagPath(FORGE, "storage_blocks/%s")
-        .defaultTagPath(FABRIC, "%s_blocks")
-        .unformattedTagPath(FORGE, "storage_blocks")
-        .langValue("Block of %s")
-        .materialAmount(GTValues.M * 9)
-        .materialIconType(MaterialIconType.block)
-        .miningToolTag(BlockTags.MINEABLE_WITH_PICKAXE)
-        .unificationEnabled(true);
+            .defaultTagPath(FORGE, "storage_blocks/%s")
+            .defaultTagPath(FABRIC, "%s_blocks")
+            .unformattedTagPath(FORGE, "storage_blocks")
+            .langValue("Block of %s")
+            .materialAmount(GTValues.M * 9)
+            .materialIconType(MaterialIconType.block)
+            .miningToolTag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .unificationEnabled(true);
 
     // Prefix to determine which kind of Rock this is.
     // Also has a base tag path of only the material, for things like obsidian etc.
     public static final TagPrefix rock = new TagPrefix("rock")
-        .defaultTagPath(FORGE, "%s")
-        .defaultTagPath(FABRIC, "%s")
-        .langValue("%s")
-        .miningToolTag(BlockTags.MINEABLE_WITH_PICKAXE)
-        .unificationEnabled(true);
+            .defaultTagPath(FORGE, "%s")
+            .defaultTagPath(FABRIC, "%s")
+            .langValue("%s")
+            .miningToolTag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .unificationEnabled(true);
 
     public static final TagPrefix frameGt = new TagPrefix("frameGt")
-        .defaultTagPath(FORGE, "frames/%s")
-        .defaultTagPath(FABRIC, "%s_frames")
-        .langValue("%s Frame")
-        .materialAmount(GTValues.M * 2)
-        .materialIconType(MaterialIconType.frameGt)
-        .miningToolTag(GTToolType.WRENCH.harvestTags.get(0))
-        .unificationEnabled(true)
-        .generationCondition(material -> material.hasFlag(MaterialFlags.GENERATE_FRAME));
+            .defaultTagPath(FORGE, "frames/%s")
+            .defaultTagPath(FABRIC, "%s_frames")
+            .langValue("%s Frame")
+            .materialAmount(GTValues.M * 2)
+            .materialIconType(MaterialIconType.frameGt)
+            .miningToolTag(GTToolType.WRENCH.harvestTags.get(0))
+            .unificationEnabled(true)
+            .generationCondition(material -> material.hasFlag(MaterialFlags.GENERATE_FRAME));
 
     // Pipes
     public static final TagPrefix pipeTinyFluid = new TagPrefix("pipeTinyFluid").itemTable(() -> GTBlocks.FLUID_PIPE_BLOCKS).langValue("Tiny %s Fluid Pipe").miningToolTag(GTToolType.WRENCH.harvestTags.get(0)).materialAmount(GTValues.M / 2).unificationEnabled(true);
@@ -833,14 +833,14 @@ public class TagPrefix {
 
     public static TagPrefix oreTagPrefix(String name) {
         return new TagPrefix(name)
-            .prefixTagPath(FORGE, "ores/%s/%s")
-            .defaultTagPath(FORGE, "ores/%s")
-            .prefixOnlyTagPath(FORGE, "ores_in_ground/%s")
-            .unformattedTagPath(FORGE, "ores")
-            .prefixTagPath(FABRIC, "%s_%s_ores")
-            .defaultTagPath(FABRIC, "%s_ores")
-            .prefixOnlyTagPath(FABRIC, "%s_ores_in_ground")
-            .unformattedTagPath(FABRIC, "ores");
+                .prefixTagPath(FORGE, "ores/%s/%s")
+                .defaultTagPath(FORGE, "ores/%s")
+                .prefixOnlyTagPath(FORGE, "ores_in_ground/%s")
+                .unformattedTagPath(FORGE, "ores")
+                .prefixTagPath(FABRIC, "%s_%s_ores")
+                .defaultTagPath(FABRIC, "%s_ores")
+                .prefixOnlyTagPath(FABRIC, "%s_ores_in_ground")
+                .unformattedTagPath(FABRIC, "ores");
     }
 
     public void addSecondaryMaterial(MaterialStack secondaryMaterial) {
@@ -904,23 +904,23 @@ public class TagPrefix {
      */
     private static final Map<UnificationEntry, Long> MATERIAL_AMOUNT_MAP = ImmutableMap.ofEntries(
 
-        // Blocks (4 materials)
-        Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Amethyst), GTValues.M * 4),
-        Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Brick), GTValues.M * 4),
-        Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.CertusQuartz), GTValues.M * 4),
-        Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Clay), GTValues.M * 4),
-        Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Glowstone), GTValues.M * 4),
-        Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.NetherQuartz), GTValues.M * 4),
+            // Blocks (4 materials)
+            Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Amethyst), GTValues.M * 4),
+            Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Brick), GTValues.M * 4),
+            Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.CertusQuartz), GTValues.M * 4),
+            Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Clay), GTValues.M * 4),
+            Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Glowstone), GTValues.M * 4),
+            Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.NetherQuartz), GTValues.M * 4),
 
-        // Blocks (1 material)
-        Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Concrete), GTValues.M),
-        Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Glass), GTValues.M),
-        Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Ice), GTValues.M),
-        Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Obsidian), GTValues.M),
+            // Blocks (1 material)
+            Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Concrete), GTValues.M),
+            Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Glass), GTValues.M),
+            Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Ice), GTValues.M),
+            Map.entry(new UnificationEntry(TagPrefix.block, GTMaterials.Obsidian), GTValues.M),
 
-        // Stick materials
-        Map.entry(new UnificationEntry(TagPrefix.rod, GTMaterials.Blaze), GTValues.M * 4),
-        Map.entry(new UnificationEntry(TagPrefix.rod, GTMaterials.Bone), GTValues.M * 5)
+            // Stick materials
+            Map.entry(new UnificationEntry(TagPrefix.rod, GTMaterials.Blaze), GTValues.M * 4),
+            Map.entry(new UnificationEntry(TagPrefix.rod, GTMaterials.Bone), GTValues.M * 5)
 
     );
 
@@ -939,47 +939,27 @@ public class TagPrefix {
 
     @SuppressWarnings("unchecked")
     public TagKey<Item>[] getItemParentTags() {
-        return (Platform.isForge() ? forgeTags : fabricTags).stream()
-            .filter(TagType::isParentTag)
-            .map(type -> type.getTag(this, null))
-            .filter(Objects::nonNull)
-            .toArray(TagKey[]::new);
+        return (Platform.isForge() ? forgeTags : fabricTags).stream().filter(TagType::isParentTag).map(type -> type.getTag(this, null)).toArray(TagKey[]::new);
     }
 
     @SuppressWarnings("unchecked")
     public TagKey<Item>[] getItemTags(@Nonnull Material mat) {
-        return (Platform.isForge() ? forgeTags : fabricTags).stream()
-                .filter(type -> !type.isParentTag())
-                .map(type -> type.getTag(this, mat))
-                .filter(Objects::nonNull)
-                .toArray(TagKey[]::new);
+        return (Platform.isForge() ? forgeTags : fabricTags).stream().filter(type -> !type.isParentTag()).map(type -> type.getTag(this, mat)).toArray(TagKey[]::new);
     }
 
     @SuppressWarnings("unchecked")
     public TagKey<Item>[] getAllItemTags(@Nonnull Material mat) {
-        return (Platform.isForge() ? forgeTags : fabricTags).stream()
-                .map(type -> type.getTag(this, mat))
-                .filter(Objects::nonNull)
-                .toArray(TagKey[]::new);
+        return (Platform.isForge() ? forgeTags : fabricTags).stream().map(type -> type.getTag(this, mat)).toArray(TagKey[]::new);
     }
 
     @SuppressWarnings("unchecked")
     public TagKey<Block>[] getBlockTags(@Nonnull Material mat) {
-        return (Platform.isForge() ? forgeTags : fabricTags).stream()
-                .filter(type -> !type.isParentTag())
-                .map(type -> type.getTag(this, mat))
-                .filter(Objects::nonNull)
-                .map(itemTagKey -> TagKey.create(Registries.BLOCK, itemTagKey.location()))
-                .toArray(TagKey[]::new);
+        return (Platform.isForge() ? forgeTags : fabricTags).stream().filter(type -> !type.isParentTag()).map(type -> type.getTag(this, mat)).map(itemTagKey -> TagKey.create(Registries.BLOCK, itemTagKey.location())).toArray(TagKey[]::new);
     }
 
     @SuppressWarnings("unchecked")
     public TagKey<Block>[] getAllBlockTags(@Nonnull Material mat) {
-        return (Platform.isForge() ? forgeTags : fabricTags).stream()
-                .map(type -> type.getTag(this, mat))
-                .filter(Objects::nonNull)
-                .map(itemTagKey -> TagKey.create(Registries.BLOCK, itemTagKey.location()))
-                .toArray(TagKey[]::new);
+        return (Platform.isForge() ? forgeTags : fabricTags).stream().map(type -> type.getTag(this, mat)).map(itemTagKey -> TagKey.create(Registries.BLOCK, itemTagKey.location())).toArray(TagKey[]::new);
     }
 
     public boolean hasItemTable() {

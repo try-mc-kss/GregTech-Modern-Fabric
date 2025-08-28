@@ -209,9 +209,7 @@ public class GTMaterials {
         block.setIgnored(Bone, Blocks.BONE_BLOCK);
         block.setIgnored(NetherQuartz, Blocks.QUARTZ_BLOCK);
         block.setIgnored(Ice, Blocks.ICE);
-        block.setIgnored(Concrete, Blocks.WHITE_CONCRETE, Blocks.ORANGE_CONCRETE, Blocks.MAGENTA_CONCRETE, Blocks.LIGHT_BLUE_CONCRETE, Blocks.YELLOW_CONCRETE, Blocks.LIME_CONCRETE,
-            Blocks.PINK_CONCRETE, Blocks.GRAY_CONCRETE, Blocks.LIGHT_GRAY_CONCRETE, Blocks.CYAN_CONCRETE, Blocks.PURPLE_CONCRETE, Blocks.BLUE_CONCRETE,
-            Blocks.BROWN_CONCRETE, Blocks.GREEN_CONCRETE, Blocks.RED_CONCRETE, Blocks.BLACK_CONCRETE);
+        block.setIgnored(Concrete, Blocks.WHITE_CONCRETE, Blocks.ORANGE_CONCRETE, Blocks.MAGENTA_CONCRETE, Blocks.LIGHT_BLUE_CONCRETE, Blocks.YELLOW_CONCRETE, Blocks.LIME_CONCRETE, Blocks.PINK_CONCRETE, Blocks.GRAY_CONCRETE, Blocks.LIGHT_GRAY_CONCRETE, Blocks.CYAN_CONCRETE, Blocks.PURPLE_CONCRETE, Blocks.BLUE_CONCRETE, Blocks.BROWN_CONCRETE, Blocks.GREEN_CONCRETE, Blocks.RED_CONCRETE, Blocks.BLACK_CONCRETE);
         block.setIgnored(Blaze);
         block.setIgnored(Lapotron);
 
@@ -263,6 +261,13 @@ public class GTMaterials {
         dye.setIgnored(DyeOrange, Items.ORANGE_DYE);
         dye.setIgnored(DyeWhite, Items.WHITE_DYE);
 
+        rawOre.setIgnored(Gold, Items.RAW_GOLD);
+        rawOre.setIgnored(Iron, Items.RAW_IRON);
+        rawOre.setIgnored(Copper, Items.RAW_COPPER);
+        rawOreBlock.setIgnored(Gold, Items.RAW_GOLD_BLOCK);
+        rawOreBlock.setIgnored(Iron, Items.RAW_IRON_BLOCK);
+        rawOreBlock.setIgnored(Copper, Items.RAW_COPPER_BLOCK);
+
         // register vanilla materials
         // Adding back the GT ores. It'd be too much pain to replace the loot tables.
         /*ore.setIgnored(Redstone, Blocks.REDSTONE_ORE);
@@ -283,13 +288,6 @@ public class GTMaterials {
         ore.setIgnored(Copper, Blocks.COPPER_ORE);
         oreDeepslate.setIgnored(Copper, Blocks.DEEPSLATE_COPPER_ORE);
         oreNetherrack.setIgnored(NetherQuartz, Blocks.NETHER_QUARTZ_ORE);*/
-
-        rawOre.setIgnored(Gold, Items.RAW_GOLD);
-        rawOre.setIgnored(Iron, Items.RAW_IRON);
-        rawOre.setIgnored(Copper, Items.RAW_COPPER);
-        rawOreBlock.setIgnored(Gold, Items.RAW_GOLD_BLOCK);
-        rawOreBlock.setIgnored(Iron, Items.RAW_IRON_BLOCK);
-        rawOreBlock.setIgnored(Copper, Items.RAW_COPPER_BLOCK);
 
         excludeAllGems(Charcoal, Items.CHARCOAL);
         excludeAllGems(Flint, Items.FLINT);
