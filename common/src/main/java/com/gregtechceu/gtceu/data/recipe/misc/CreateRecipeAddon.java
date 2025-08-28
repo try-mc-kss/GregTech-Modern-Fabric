@@ -41,7 +41,7 @@ public class CreateRecipeAddon {
                         // Add ingredients - 1 ingot
                         JsonArray ingredients = new JsonArray();
                         JsonObject ingotIngredient = new JsonObject();
-                        ingotIngredient.addProperty("tag", "gtceu:" + material.getName() + "_ingot");
+                        ingotIngredient.addProperty("item", "gtceu:" + material.getName() + "_ingot");
                         ingotIngredient.addProperty("count", 1);
                         ingredients.add(ingotIngredient);
                         
