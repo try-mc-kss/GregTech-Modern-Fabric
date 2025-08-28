@@ -69,7 +69,7 @@ public class CommonProxy {
         GTFeatures.register();
         // 基于材料属性自动检测并忽略无用的标签
         // 遍历所有材料
-        for (Material material : GTRegistries.MATERIALS) {
+        /*for (Material material : GTRegistries.MATERIALS) {
             // 遍历所有标签前缀
             for (TagPrefix tagPrefix : TagPrefix.values()) {
                 // 如果标签前缀启用了物品生成，但材料实际上不满足生成条件，则忽略该标签
@@ -84,6 +84,6 @@ public class CommonProxy {
                     }
                 }
             }
-        }
+        }*/
     }
 }
