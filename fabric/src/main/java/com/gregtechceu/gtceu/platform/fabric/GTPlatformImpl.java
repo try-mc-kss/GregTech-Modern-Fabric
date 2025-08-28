@@ -2,7 +2,6 @@ package com.gregtechceu.gtceu.platform.fabric;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.world.item.CreativeModeTab;
-import net.fabricmc.loader.api.FabricLoader;
 
 /**
  * Fabric平台实现

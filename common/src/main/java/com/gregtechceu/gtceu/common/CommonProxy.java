@@ -3,6 +3,8 @@ package com.gregtechceu.gtceu.common;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.addon.AddonFinder;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -65,5 +67,23 @@ public class CommonProxy {
         WorldGenLayers.registerAll();
         GTFeatures.init();
         GTFeatures.register();
+        // 基于材料属性自动检测并忽略无用的标签
+        // 遍历所有材料
+        for (Material material : GTRegistries.MATERIALS) {
+            // 遍历所有标签前缀
+            for (TagPrefix tagPrefix : TagPrefix.values()) {
+                // 如果标签前缀启用了物品生成，但材料实际上不满足生成条件，则忽略该标签
+                if (tagPrefix.doGenerateItem() && !tagPrefix.doGenerateItem(material)) {
+                    // 但要排除一些特殊情况，这些材料虽然不满足标准条件但有其他用途
+                    // 特别是那些可能在配方中作为输入或输出使用的物品
+                    tagPrefix.setIgnored(material);
+                    if (!ChemicalHelper.get(tagPrefix, material).isEmpty() || tagPrefix.isIgnored(material)) {
+                        // 如果已经有对应的物品存在，则不忽略该标签
+                        tagPrefix.removeIgnored(material);
+                        continue;
+                    }
+                }
+            }
+        }
     }
 }

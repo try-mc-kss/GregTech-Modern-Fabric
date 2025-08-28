@@ -22,13 +22,11 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.data.tag.TagUtil;
 import com.gregtechceu.gtceu.api.gui.misc.ProspectorMode;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
-import com.gregtechceu.gtceu.api.item.tool.GTToolItem;
 import com.gregtechceu.gtceu.api.item.IGTTool;
 import com.gregtechceu.gtceu.api.item.TagPrefixItem;
 import com.gregtechceu.gtceu.api.item.component.*;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.api.item.tool.MaterialToolTier;
-import com.gregtechceu.gtceu.api.item.tool.ToolDefinitionBuilder;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.registry.registrate.CompassNode;
 import com.gregtechceu.gtceu.api.registry.registrate.CompassSection;
@@ -445,7 +443,7 @@ public class GTItems {
             .onRegister(attach(cellName(), ThermalFluidStats.create((int)FluidHelper.getBucket(), 1200, false, true, false, false, true), new ItemFluidContainer()))
             .onRegister(materialInfo(new ItemMaterialInfo(new MaterialStack(GTMaterials.Glass, GTValues.M / 4)))).register();
 
-    // TODO Lighter
+    // TODO Let machine can glow future?
     public static ItemEntry<Item> TOOL_MATCHES;
     public static ItemEntry<Item> TOOL_MATCHBOX;
     public static ItemEntry<Item> TOOL_LIGHTER_INVAR;
@@ -1609,7 +1607,7 @@ public class GTItems {
 
     public static ItemEntry<Item> CLIPBOARD;
 
-    // TODO ARMOR
+    // TODO High technology ARMOR
 //    public static ArmorMetaItem<?>.ArmorMetaValueItem NIGHTVISION_GOGGLES;
 //
 //    public static ArmorMetaItem<?>.ArmorMetaValueItem NANO_CHESTPLATE;

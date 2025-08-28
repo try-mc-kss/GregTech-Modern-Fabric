@@ -1,6 +1,6 @@
 # ChangeLog
 
-Version: 2.0.2-a
+Version: 2.0.3-a
 
-- fix some issues
-- add more create addon recipes
+- try to fix tag warning issue
+- modify certus quartz vein chinese translation.

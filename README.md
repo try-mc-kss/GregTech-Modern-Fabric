@@ -1,6 +1,8 @@
 # GregTechCEu
 
-![Logo](https://raw.githubusercontent.com/GregTechCEu/Branding/refs/heads/master/gregtech_ceu_modern_logo_large_modern.png)
+| |
+|:---:|
+| ![Logo](https://raw.githubusercontent.com/GregTechCEu/Branding/refs/heads/master/gregtech_ceu_modern_logo_large_modern.png) |
 
 GregTech based on Architectury for performing on Forge, Fabric, and Quilt, simultaneously.
 
