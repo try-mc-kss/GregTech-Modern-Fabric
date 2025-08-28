@@ -158,15 +158,15 @@ public class GTMaterials {
         cableGtOctal.addSecondaryMaterial(new MaterialStack(Rubber, plate.materialAmount() * 3));
         cableGtHex.addSecondaryMaterial(new MaterialStack(Rubber, plate.materialAmount() * 5));
 
-        /*gemExquisite.setIgnored(Sugar);
+        gemExquisite.setIgnored(Sugar);
         gemFlawless.setIgnored(Sugar);
 
-        //gem.setIgnored(Diamond, Items.DIAMOND);
-        //gem.setIgnored(Emerald, Items.EMERALD);
-        //gem.setIgnored(Lapis, Items.LAPIS_LAZULI);
-        //gem.setIgnored(NetherQuartz, Items.QUARTZ);
-        //gem.setIgnored(Coal, Items.COAL);
-        //gem.setIgnored(Amethyst, Items.AMETHYST_SHARD);
+        gem.setIgnored(Diamond, Items.DIAMOND);
+        gem.setIgnored(Emerald, Items.EMERALD);
+        gem.setIgnored(Lapis, Items.LAPIS_LAZULI);
+        gem.setIgnored(NetherQuartz, Items.QUARTZ);
+        gem.setIgnored(Coal, Items.COAL);
+        gem.setIgnored(Amethyst, Items.AMETHYST_SHARD);
 
         dust.setIgnored(Redstone, Items.REDSTONE);
         dust.setIgnored(Glowstone, Items.GLOWSTONE_DUST);
@@ -182,7 +182,7 @@ public class GTMaterials {
 
         ingot.setIgnored(Iron, Items.IRON_INGOT);
         ingot.setIgnored(Gold, Items.GOLD_INGOT);
-        //ingot.setIgnored(Copper, Items.COPPER_INGOT);
+        ingot.setIgnored(Copper, Items.COPPER_INGOT);
 
         nugget.setIgnored(Gold, Items.GOLD_NUGGET);
         nugget.setIgnored(Iron, Items.IRON_NUGGET);
@@ -195,8 +195,8 @@ public class GTMaterials {
         block.setIgnored(Lapis, Blocks.LAPIS_BLOCK);
         block.setIgnored(Emerald, Blocks.EMERALD_BLOCK);
         block.setIgnored(Redstone, Blocks.REDSTONE_BLOCK);
-        //block.setIgnored(Diamond, Blocks.DIAMOND_BLOCK);
-        //block.setIgnored(Coal, Blocks.COAL_BLOCK);
+        block.setIgnored(Diamond, Blocks.DIAMOND_BLOCK);
+        block.setIgnored(Coal, Blocks.COAL_BLOCK);
         block.setIgnored(Amethyst, Blocks.AMETHYST_BLOCK);
         block.setIgnored(Glass, Blocks.GLASS);
         block.setIgnored(Glowstone, Blocks.GLOWSTONE);
@@ -210,8 +210,8 @@ public class GTMaterials {
         block.setIgnored(NetherQuartz, Blocks.QUARTZ_BLOCK);
         block.setIgnored(Ice, Blocks.ICE);
         block.setIgnored(Concrete, Blocks.WHITE_CONCRETE, Blocks.ORANGE_CONCRETE, Blocks.MAGENTA_CONCRETE, Blocks.LIGHT_BLUE_CONCRETE, Blocks.YELLOW_CONCRETE, Blocks.LIME_CONCRETE,
-                Blocks.PINK_CONCRETE, Blocks.GRAY_CONCRETE, Blocks.LIGHT_GRAY_CONCRETE, Blocks.CYAN_CONCRETE, Blocks.PURPLE_CONCRETE, Blocks.BLUE_CONCRETE,
-                Blocks.BROWN_CONCRETE, Blocks.GREEN_CONCRETE, Blocks.RED_CONCRETE, Blocks.BLACK_CONCRETE);
+            Blocks.PINK_CONCRETE, Blocks.GRAY_CONCRETE, Blocks.LIGHT_GRAY_CONCRETE, Blocks.CYAN_CONCRETE, Blocks.PURPLE_CONCRETE, Blocks.BLUE_CONCRETE,
+            Blocks.BROWN_CONCRETE, Blocks.GREEN_CONCRETE, Blocks.RED_CONCRETE, Blocks.BLACK_CONCRETE);
         block.setIgnored(Blaze);
         block.setIgnored(Lapotron);
 
@@ -267,8 +267,8 @@ public class GTMaterials {
         // Adding back the GT ores. It'd be too much pain to replace the loot tables.
         ore.setIgnored(Redstone, Blocks.REDSTONE_ORE);
         oreDeepslate.setIgnored(Redstone, Blocks.DEEPSLATE_REDSTONE_ORE);
-        //ore.setIgnored(Coal, Blocks.COAL_ORE);
-        //oreDeepslate.setIgnored(Coal, Blocks.DEEPSLATE_COAL_ORE);
+        ore.setIgnored(Coal, Blocks.COAL_ORE);
+        oreDeepslate.setIgnored(Coal, Blocks.DEEPSLATE_COAL_ORE);
         ore.setIgnored(Gold, Blocks.GOLD_ORE);
         oreDeepslate.setIgnored(Gold, Blocks.DEEPSLATE_GOLD_ORE);
         oreNetherrack.setIgnored(Gold, Blocks.NETHER_GOLD_ORE);
@@ -291,12 +291,12 @@ public class GTMaterials {
         rawOreBlock.setIgnored(Iron, Items.RAW_IRON_BLOCK);
         rawOreBlock.setIgnored(Copper, Items.RAW_COPPER_BLOCK);
 
-        //excludeAllGems(Charcoal, Items.CHARCOAL);
+        excludeAllGems(Charcoal, Items.CHARCOAL);
         excludeAllGems(Flint, Items.FLINT);
         excludeAllGems(EnderPearl, Items.ENDER_PEARL);
         excludeAllGems(EnderEye, Items.ENDER_EYE);
         excludeAllGems(NetherStar, Items.NETHER_STAR);
-        excludeAllGemsButNormal(Lapotron);*/
+        excludeAllGemsButNormal(Lapotron);
 
         // TODO GT stone types, move out of this file
         /*ChemicalHelper.registerUnificationEntry(MetaBlocks.STONE_SMOOTH.getItemVariant(BlockStoneSmooth.BlockType.BLACK_GRANITE, 1), TagPrefix.stone, GTMaterials.Deepslate);
