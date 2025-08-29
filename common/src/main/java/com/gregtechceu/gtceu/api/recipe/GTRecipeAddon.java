@@ -25,14 +25,20 @@ public class GTRecipeAddon implements FinishedRecipe{
     protected String OutputType = ""; //necessary
 
     public GTRecipeAddon(String RecipeModId, @Nonnull String RecipeType, int InputAmount, String InputModId, Material InputMaterial, @Nonnull String InputType, int OutputAmount, String OutputModId, Material OutputMaterial, @Nonnull String OutputType) {
-        this.RecipeModId = RecipeModId;
+        if (RecipeModId != "") {
+            this.RecipeModId = RecipeModId;
+        }
         this.RecipeType = RecipeType;
         this.InputAmount = InputAmount;
-        this.InputModId = InputModId;
+        if(InputModId != "") {
+            this.InputModId = InputModId;
+        }
         this.InputMaterial = InputMaterial;
         this.InputType = InputType;
         this.OutputAmount = OutputAmount;
-        this.OutputModId = OutputModId;
+        if(OutputModId != "") {
+            this.OutputModId = OutputModId;
+        }
         this.OutputMaterial = OutputMaterial;
         this.OutputType = OutputType;
     }
@@ -45,7 +51,7 @@ public class GTRecipeAddon implements FinishedRecipe{
         // Add ingredients - 1 ingot
         JsonArray ingredients = new JsonArray();
         JsonObject TypeIngredient = new JsonObject();
-        TypeIngredient.addProperty("item", InputModId + ":" + InputMaterial == null ? "" : (InputMaterial.getName() + "_") + InputType);
+        TypeIngredient.addProperty("item", InputModId + ":" + (InputMaterial == null ? "" : (InputMaterial.getName() + "_")) + InputType);
         TypeIngredient.addProperty("count", InputAmount);
         ingredients.add(TypeIngredient);
         
@@ -53,7 +59,7 @@ public class GTRecipeAddon implements FinishedRecipe{
         // Add results - 1 plate
         JsonArray results = new JsonArray();
         JsonObject result = new JsonObject();
-        result.addProperty("item", OutputModId + ":" + OutputMaterial == null ? "" : (OutputMaterial.getName() + "_") + OutputType);
+        result.addProperty("item", OutputModId + ":" + (OutputMaterial == null ? "" : (OutputMaterial.getName() + "_")) + OutputType);
         result.addProperty("count", OutputAmount);
         results.add(result);
         json.add("results", results);
@@ -61,7 +67,7 @@ public class GTRecipeAddon implements FinishedRecipe{
 
     @Override
     public ResourceLocation getId() {
-        return new ResourceLocation(RecipeModId, RecipeType + "/" + InputMaterial == null ? "" : (InputMaterial.getName() + "_") + InputType + "_to" + OutputMaterial == null ? "" : ("_" + OutputMaterial.getName() + "_") + OutputType);
+        return new ResourceLocation(RecipeModId, RecipeType + "/" + (InputMaterial == null ? "" : (InputMaterial.getName() + "_")) + InputType + "_to" + (OutputMaterial == null ? "" : ("_" + OutputMaterial.getName() + "_")) + OutputType);
     }
 
     @Override
