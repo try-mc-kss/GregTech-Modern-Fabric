@@ -2,7 +2,7 @@
     <img src="https://raw.githubusercontent.com/GregTechCEu/Branding/refs/heads/master/gregtech_ceu_modern_logo_large_modern.png" alt="Logo">
 </p>
 
-# GregTechCEu
+# GregTechCEu Modern
 
 GregTech based on Architectury for performing on Forge, Fabric, and Quilt, simultaneously.
 
