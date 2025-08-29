@@ -204,7 +204,7 @@ public class GTMaterials {
         block.setIgnored(Wood);
         block.setIgnored(TreatedWood);
         block.setIgnored(RawRubber);
-        block.setIgnored(Clay, Blocks.CLAY);
+        //block.setIgnored(Clay, Blocks.CLAY);
         block.setIgnored(Brick, Blocks.BRICKS);
         block.setIgnored(Bone, Blocks.BONE_BLOCK);
         block.setIgnored(NetherQuartz, Blocks.QUARTZ_BLOCK);

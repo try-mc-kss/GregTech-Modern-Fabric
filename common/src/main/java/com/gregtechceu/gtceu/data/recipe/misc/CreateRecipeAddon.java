@@ -1,18 +1,12 @@
 package com.gregtechceu.gtceu.data.recipe.misc;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeAddon;
 
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-
-import javax.annotation.Nullable;
-import javax.annotation.Nonnull;
 
 import java.util.function.Consumer;
 
@@ -27,56 +21,12 @@ public class CreateRecipeAddon {
      * @param provider recipe provider
      */
     public static void registerPressingRecipes(Consumer<FinishedRecipe> provider) {
-        String RecipeType = "pressing";
         for (Material material : GTRegistries.MATERIALS) {
             // Check if material has ingot property and can generate plates
             if (material.hasProperty(PropertyKey.INGOT) && material.hasFlag(MaterialFlags.GENERATE_PLATE) && material.getName() != null && !material.getName().isEmpty()) {
                 // Generate pressing recipe for this material
-                provider.accept(new FinishedRecipe() {
-                    @Override
-                    public void serializeRecipeData(@Nonnull JsonObject json) {
-                        // Set recipe type
-                        json.addProperty("type", "create:" + RecipeType);
-                        
-                        // Add ingredients - 1 ingot
-                        JsonArray ingredients = new JsonArray();
-                        JsonObject ingotIngredient = new JsonObject();
-                        ingotIngredient.addProperty("item", "gtceu:" + material.getName() + "_ingot");
-                        ingotIngredient.addProperty("count", 1);
-                        ingredients.add(ingotIngredient);
-                        
-                        json.add("ingredients", ingredients);
-                        // Add results - 1 plate
-                        JsonArray results = new JsonArray();
-                        JsonObject result = new JsonObject();
-                        result.addProperty("item", "gtceu:" + material.getName() + "_plate");
-                        result.addProperty("count", 1);
-                        results.add(result);
-                        json.add("results", results);
-                    }
-
-                    @Override
-                    public ResourceLocation getId() {
-                        return new ResourceLocation("create", RecipeType + "/" + material.getName() + "_ingot_to_plate");
-                    }
-
-                    @Override
-                    public RecipeSerializer<?> getType() {
-                        return RecipeSerializer.SHAPELESS_RECIPE;
-                    }
-
-                    @Nullable
-                    @Override
-                    public JsonObject serializeAdvancement() {
-                        return null;
-                    }
-
-                    @Nullable
-                    @Override
-                    public ResourceLocation getAdvancementId() {
-                        return null;
-                    }
-                });
+                provider.accept(new GTRecipeAddon("create", "pressing", 1, "gtceu", material, "ingot", 1, "gtceu", material, "plate"));
+                provider.accept(new GTRecipeAddon("createaddition", "rolling", 1, "gtceu", material, "ingot", 2, "gtceu", material, "rod"));
             }
         }
     }
